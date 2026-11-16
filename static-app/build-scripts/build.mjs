@@ -5,6 +5,8 @@ import { marked } from 'marked';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+// Project root is two levels up: static-app/build-scripts/ → project root
+const rootDir = join(__dirname, '..', '..');
 
 // Configure marked to use basic sanitization
 marked.setOptions({
@@ -37,71 +39,19 @@ function getAllMarkdownFiles(dir, baseDir = dir) {
   return files.sort((a, b) => a.relativePath.localeCompare(b.relativePath));
 }
 
-function generateHtml(personalHtml, summaryHtml, experienceHtml, skillsHtml, educationHtml, languagesHtml) {
-  return `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title> Gabriel Romay Machado - Senior Full-Stack Engineer</title>
-  <meta name="description" content="Portfolio of Gabriel Romay Machado, Senior Full-Stack Engineer with 10+ years of experience.">
-  <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <header>
-    <div class="container">
-      ${personalHtml}
-    </div>
-  </header>
-
-  <main>
-    <section id="summary">
-      <div class="container">
-        ${summaryHtml}
-      </div>
-    </section>
-
-    <section id="experience">
-      <div class="container">
-        <h2>Work Experience</h2>
-        ${experienceHtml}
-      </div>
-    </section>
-
-    <section id="skills">
-      <div class="container">
-        ${skillsHtml}
-      </div>
-    </section>
-
-    <section id="education">
-      <div class="container">
-        ${educationHtml}
-      </div>
-    </section>
-
-    <section id="languages">
-      <div class="container">
-        ${languagesHtml}
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <div class="container">
-      <p>&copy; ${new Date().getFullYear()} Gabriel Romay Machado</p>
-    </div>
-  </footer>
-
-  <script src="script.js"></script>
-</body>
-</html>`;
+function fillTemplate(template, replacements) {
+  let html = template;
+  for (const [key, value] of Object.entries(replacements)) {
+    const placeholder = `<!-- ${key} -->`;
+    html = html.replace(placeholder, value);
+  }
+  return html;
 }
 
 function main() {
-  const cvDir = join(__dirname, 'cv');
-  const distDir = join(__dirname, 'dist');
+  const cvDir = join(rootDir, 'cv');
+  const staticAppDir = join(rootDir, 'static-app');
+  const distDir = join(rootDir, 'dist');
 
   // Create dist directory
   mkdirSync(distDir, { recursive: true });
@@ -136,14 +86,25 @@ function main() {
   const languagesMd = readMarkdownFile(join(cvDir, 'languages.md'));
   const languagesHtml = markdownToHtml(languagesMd);
 
-  // Generate index.html
-  const html = generateHtml(personalHtml, summaryHtml, experienceHtml, skillsHtml, educationHtml, languagesHtml);
+  // Read the HTML template from static-app/index.html
+  const template = readFileSync(join(staticAppDir, 'index.html'), 'utf-8');
+
+  // Fill in the template with CV content
+  const html = fillTemplate(template, {
+    PERSONAL: personalHtml,
+    SUMMARY: summaryHtml,
+    EXPERIENCE: experienceHtml,
+    SKILLS: skillsHtml,
+    EDUCATION: educationHtml,
+    LANGUAGES: languagesHtml,
+    YEAR: new Date().getFullYear().toString(),
+  });
   writeFileSync(join(distDir, 'index.html'), html, 'utf-8');
 
-  // Copy assets to dist
-  copyFileSync(join(__dirname, 'assets', 'favicon.svg'), join(distDir, 'favicon.svg'));
-  copyFileSync(join(__dirname, 'assets', 'styles.css'), join(distDir, 'styles.css'));
-  copyFileSync(join(__dirname, 'assets', 'script.js'), join(distDir, 'script.js'));
+  // Copy static assets from static-app to dist
+  copyFileSync(join(staticAppDir, 'favicon.svg'), join(distDir, 'favicon.svg'));
+  copyFileSync(join(staticAppDir, 'styles.css'), join(distDir, 'styles.css'));
+  copyFileSync(join(staticAppDir, 'script.js'), join(distDir, 'script.js'));
 
   // Write date.json
   const dateJson = JSON.stringify({ built: new Date().toISOString() }, null, 2);
