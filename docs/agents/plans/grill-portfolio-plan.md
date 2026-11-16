@@ -32,7 +32,7 @@ Create a structured CV data store and a portfolio website for Gabriel Romay that
 
 **Out of Scope:**
 
-- PDF generation from Markdown files (existing PDFs in `pdfs/` remain as-is, but will be gitignored)
+- PDF generation from Markdown files
 - Multi-language support (English only)
 - Backend or database
 - Blog or additional content beyond CV/portfolio
@@ -78,7 +78,6 @@ Create a structured CV data store and a portfolio website for Gabriel Romay that
    - **XSS Prevention**: Sanitize all Markdown output using marked's built-in sanitizer and DOMPurify library
    - **Content Security Policy**: Moderate CSP via `<meta>` tag allowing same-origin scripts and trusted sources
    - **Email Obfuscation**: JavaScript-generated mailto link to prevent bot scraping
-   - **PDF Privacy**: Exclude `pdfs/` folder from public repo via `.gitignore`
 
 ### Non-Functional Requirements
 
@@ -93,8 +92,8 @@ Create a structured CV data store and a portfolio website for Gabriel Romay that
 ### Current Implementation
 
 The project is essentially empty:
+
 - `README.md` — describes a static portfolio
-- `pdfs/` — contains two CV PDFs (English and Spanish)
 - `docs/` — agent documentation only
 - No website code, no structured CV data file
 
@@ -128,8 +127,6 @@ The project is essentially empty:
 
 14. **JavaScript email obfuscation** (new): Generate the mailto link in JavaScript to prevent bot scraping of the email address.
 
-15. **PDF privacy via .gitignore** (new): Exclude the `pdfs/` folder from the public repo to protect sensitive data in CV PDFs.
-
 ### Proposed Changes
 
 1. **Create `cv/` folder** with individual Markdown files:
@@ -158,7 +155,7 @@ The project is essentially empty:
 
 4. **Update `README.md`** with project structure and build/deploy instructions.
 
-5. **Add `.gitignore`** to exclude `pdfs/` folder and `node_modules/`.
+5. **Add `.gitignore`** to exclude `node_modules/`.
 
 ### File Structure
 
@@ -242,7 +239,6 @@ The agent will validate by running the build script and checking the output loca
 16. **XSS prevention**: Attempt to inject malicious Markdown (e.g., `<script>` tags) and verify it's sanitized by marked and DOMPurify.
 17. **CSP validation**: Verify the CSP meta tag is present and correctly configured. Test that it blocks unauthorized scripts.
 18. **Email obfuscation**: Verify the email is not visible in the HTML source but is accessible via the mailto link in the browser.
-19. **PDF privacy**: Verify the `pdfs/` folder is excluded from the public repo via `.gitignore`.
 
 ### Edge Cases
 
@@ -257,8 +253,10 @@ The agent will validate by running the build script and checking the output loca
 
 # Delivery Steps
 
-###   Step 1: Create cv/ folder with Markdown files
+### Step 1: Create cv/ folder with Markdown files
+
 Extract CV data from the PDF and create structured Markdown files.
+
 - Create `cv/` folder and `cv/experience/` subfolder
 - Create `cv/personal.md` with name, title, location, contact (mailto email, GitHub, LinkedIn; 'Open to remote positions')
 - Create `cv/summary.md` with professional summary
@@ -266,8 +264,10 @@ Extract CV data from the PDF and create structured Markdown files.
 - Create `cv/skills.md` with 10 categorized skill sections
 - Create `cv/education.md` and `cv/languages.md`
 
-###   Step 2: Create build script with semantic HTML, sanitization, and generate index.html
+### Step 2: Create build script with semantic HTML, sanitization, and generate index.html
+
 Build the local Node.js script that converts Markdown to HTML with semantic wrappers, sanitization, and assembles the website.
+
 - Create `build.mjs` with `marked` and `dompurify` dependencies
 - Implement Markdown-to-HTML conversion for all CV files
 - **Sanitize output using marked's built-in sanitizer and DOMPurify**
@@ -278,8 +278,10 @@ Build the local Node.js script that converts Markdown to HTML with semantic wrap
 - Write current date to `date.json`
 - Run the script to generate `index.html` and verify output
 
-###   Step 3: Build the static portfolio website with a11y and security
+### Step 3: Build the static portfolio website with a11y and security
+
 Create the CSS and client-side JavaScript for the portfolio with full WCAG 2.1 AA accessibility and security measures.
+
 - Create `styles.css` with timeline layout for experience, tag cloud for skills, CSS custom properties, responsive design, dark mode, system fonts, sticky sidebar styling
 - Add **custom focus indicators** (visible in both light and dark modes)
 - Add **`prefers-reduced-motion`** CSS media query to disable animations
@@ -291,14 +293,15 @@ Create the CSS and client-side JavaScript for the portfolio with full WCAG 2.1 A
 - Add **email obfuscation** using JavaScript to generate the mailto link
 - Test locally: verify all sections render, dark mode works, responsive layout, smooth scroll, scroll spy, skip link, keyboard nav, focus indicators, reduced motion, email obfuscation
 
-###   Step 4: Validate accessibility, security, and finalize deployment
+### Step 4: Validate accessibility, security, and finalize deployment
+
 Run accessibility and security validation and finalize deployment documentation.
+
 - Run a **Lighthouse accessibility audit** on `index.html` and verify a score of 90+ (target 100)
 - **Test XSS prevention** by injecting malicious Markdown and verifying sanitization
 - **Verify CSP** is correctly configured and blocks unauthorized scripts
 - **Verify email obfuscation** prevents scraping
-- **Verify PDF privacy** by checking `.gitignore` excludes `pdfs/`
 - Fix any a11y or security issues found
 - Update `README.md` with project structure, build instructions (`node build.mjs`), and GitHub Pages deployment steps
-- Add `.gitignore` for `node_modules/` and `pdfs/`
+- Add `.gitignore` for `node_modules/`
 - Verify the generated `index.html` is valid and complete
