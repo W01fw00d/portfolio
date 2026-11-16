@@ -4,7 +4,7 @@ A static portfolio website displaying my CV and professional information.
 
 ## About
 
-This project is a personal portfolio website built with static HTML/CSS/JS, showcasing my resume, skills, and professional background. The CV data is stored in Markdown for easy editing.
+This project is a personal portfolio website built with [Eleventy (11ty)](https://www.11ty.dev/), a fast and simple static site generator. The CV data is stored in Markdown for easy editing, and the site is rendered as plain HTML/CSS/JS with zero client-side JavaScript.
 
 ## Getting Started
 
@@ -20,23 +20,23 @@ npm install
 
 ### Development Server (Hot Reload)
 
-Starts a local development server with automatic rebuilds when you edit Markdown or asset files.
+Starts a local development server with automatic rebuilds when you edit CV Markdown or static app files.
 
 ```bash
 npm run dev
 ```
 
-Opens the site at `http://localhost:3000`. The server watches `cv/` and `static-app/` for changes and automatically rebuilds the site, so you can see your edits immediately by refreshing the browser.
+Opens the site at `http://localhost:8080`. The server watches `cv/` and `static-app/` for changes and automatically rebuilds the site, so you can see your edits immediately by refreshing the browser.
 
 ### Build
 
-Compiles the Markdown CV files in `cv/` to a static HTML page in `dist/`.
+Compiles the CV Markdown files and Nunjucks template to a static HTML page in `dist/`.
 
 ```bash
 npm run build
 ```
 
-The build script (`static-app/build-scripts/build.mjs`) reads the HTML template from `static-app/index.html`, fills in the CV content converted from Markdown using the `marked` library, and copies static assets (styles, scripts, favicon) from `static-app/` to `dist/`.
+Eleventy reads the Nunjucks layout template, loads CV content from Markdown files via a data file, converts Markdown to HTML, and copies static assets (styles, scripts, favicon) to `dist/`.
 
 ### Preview
 
@@ -51,24 +51,28 @@ Opens the site at `http://localhost:3000` (or the next available port).
 ## Project Structure
 
 ```
-├── cv/              # CV data in Markdown format
-│   ├── experience/  # Individual work experience entries
+├── .eleventy.js         # Eleventy configuration
+├── cv/                  # CV data in Markdown format (independent of static-app)
+│   ├── experience/      # Individual work experience entries
 │   ├── personal.md
 │   ├── summary.md
 │   ├── skills.md
 │   ├── education.md
 │   └── languages.md
-├── dist/            # Generated output (not committed)
-├── static-app/      # Static app source
-│   ├── build-scripts/  # Build and dev server scripts
-│   ├── index.html      # HTML template with content markers
+├── static-app/          # Static app source (Eleventy input directory)
+│   ├── _data/
+│   │   └── cv.js        # Data file: loads and converts CV Markdown to HTML
+│   ├── _includes/
+│   │   └── layout.njk   # Nunjucks layout template
+│   ├── index.njk        # Main page template (uses layout.njk)
 │   ├── styles.css
 │   ├── script.js
 │   └── favicon.svg
-└── package.json     # Project configuration and scripts
+├── dist/                # Generated output (not committed)
+└── package.json         # Project configuration and scripts
 ```
 
-Edit the Markdown files in `cv/` to update the content, or edit the HTML template, styles, and scripts in `static-app/` to change the layout and appearance. Then run `npm run build` to regenerate the site.
+Edit the Markdown files in `cv/` to update the content, or edit the Nunjucks layout, styles, and scripts in `static-app/` to change the layout and appearance. Then run `npm run build` to regenerate the site.
 
 ## Project Plan
 
