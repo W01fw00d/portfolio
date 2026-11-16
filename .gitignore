@@ -8,9 +8,3 @@ notes.md
 skills-lock.json
 
 pdfs
-
-# Dependencies
-node_modules/
-
-# Build output
-dist/
