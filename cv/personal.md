@@ -1,7 +1,7 @@
 # Gabriel Romay Machado
 
 **Senior Full-Stack Engineer**
-Frontend Oriented · AI-Assisted Development
+**Frontend Oriented · AI-Assisted Development**
 
 10+ years of experience
 Based in Palma de Mallorca, Spain
