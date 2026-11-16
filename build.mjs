@@ -140,8 +140,10 @@ function main() {
   const html = generateHtml(personalHtml, summaryHtml, experienceHtml, skillsHtml, educationHtml, languagesHtml);
   writeFileSync(join(distDir, 'index.html'), html, 'utf-8');
 
-  // Copy favicon to dist
+  // Copy assets to dist
   copyFileSync(join(__dirname, 'assets', 'favicon.svg'), join(distDir, 'favicon.svg'));
+  copyFileSync(join(__dirname, 'assets', 'styles.css'), join(distDir, 'styles.css'));
+  copyFileSync(join(__dirname, 'assets', 'script.js'), join(distDir, 'script.js'));
 
   // Write date.json
   const dateJson = JSON.stringify({ built: new Date().toISOString() }, null, 2);
