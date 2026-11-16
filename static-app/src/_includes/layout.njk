@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ site.title }}</title>
+  <meta name="description" content="{{ site.description }}">
+  <link rel="canonical" href="{{ site.baseUrl }}">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <!-- Open Graph tags for social sharing -->
+  <meta property="og:title" content="{{ site.title }}">
+  <meta property="og:description" content="{{ site.description }}">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{ site.baseUrl }}">
+</head>
+<body>
+  <a href="#main" class="skip-to-content">Skip to main content</a>
+  <header>
+    <div class="container">
+      {# safe: authored MD from cv/ #}
+      {{ cv.personal | safe }}
+    </div>
+  </header>
+
+  <main id="main">
+    <section id="summary">
+      <div class="container">
+        {# safe: authored MD from cv/ #}
+        {{ cv.summary | safe }}
+      </div>
+    </section>
+
+    <section id="experience">
+      <div class="container">
+        <h2>Work Experience</h2>
+        {% for exp in cv.experience %}
+        <article>{# safe: authored MD from cv/ #}{{ exp | safe }}</article>
+        {% endfor %}
+      </div>
+    </section>
+
+    <section id="skills">
+      <div class="container">
+        {# safe: authored MD from cv/ #}
+        {{ cv.skills | safe }}
+      </div>
+    </section>
+
+    <section id="education">
+      <div class="container">
+        {# safe: authored MD from cv/ #}
+        {{ cv.education | safe }}
+      </div>
+    </section>
+
+    <section id="languages">
+      <div class="container">
+        {# safe: authored MD from cv/ #}
+        {{ cv.languages | safe }}
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; {{ cv.year }} Gabriel Romay Machado</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
