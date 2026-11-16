@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync, mkdirSync, readdirSync } from 'fs';
+import { copyFileSync, readFileSync, writeFileSync, mkdirSync, readdirSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { marked } from 'marked';
@@ -45,6 +45,7 @@ function generateHtml(personalHtml, summaryHtml, experienceHtml, skillsHtml, edu
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title> Gabriel Romay Machado - Senior Full-Stack Engineer</title>
   <meta name="description" content="Portfolio of Gabriel Romay Machado, Senior Full-Stack Engineer with 10+ years of experience.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -138,6 +139,9 @@ function main() {
   // Generate index.html
   const html = generateHtml(personalHtml, summaryHtml, experienceHtml, skillsHtml, educationHtml, languagesHtml);
   writeFileSync(join(distDir, 'index.html'), html, 'utf-8');
+
+  // Copy favicon to dist
+  copyFileSync(join(__dirname, 'assets', 'favicon.svg'), join(distDir, 'favicon.svg'));
 
   // Write date.json
   const dateJson = JSON.stringify({ built: new Date().toISOString() }, null, 2);
