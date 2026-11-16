@@ -10,6 +10,12 @@
     "clean": "cd static-app && npm run clean",
     "build": "cd static-app && npm run build",
     "dev": "cd static-app && npm run dev",
-    "preview": "cd static-app && npm run preview"
+    "preview": "cd static-app && npm run preview",
+    "format": "prettier --write \"**/*.{js,css,json,njk,md}\"",
+    "format:check": "prettier --check \"**/*.{js,css,json,njk,md}\""
+  },
+  "devDependencies": {
+    "prettier": "^3.6.2",
+    "prettier-plugin-nunjucks": "^0.2.3"
   }
 }
