@@ -53,23 +53,23 @@ Dependencies (`@11ty/eleventy`, `markdown-it`) are hoisted to the root `node_mod
 
 The root `package.json` delegates to this workspace:
 
-| Command | Description |
-|---|---|
-| `npm run clean` | Remove the `static-app/dist/` output directory |
-| `npm run build` | Build the site to `static-app/dist/` |
-| `npm run dev` | Build and start a dev server with live reload |
+| Command           | Description                                    |
+| ----------------- | ---------------------------------------------- |
+| `npm run clean`   | Remove the `static-app/dist/` output directory |
+| `npm run build`   | Build the site to `static-app/dist/`           |
+| `npm run dev`     | Build and start a dev server with live reload  |
 | `npm run preview` | Serve the built output from `static-app/dist/` |
 
 ### From `static-app/` directly
 
 You can also run commands directly inside this directory:
 
-| Command | Description |
-|---|---|
-| `npm run clean` | Remove the `dist/` output directory |
-| `npm run build` | Build the site to `dist/` |
-| `npm run dev` | Build and start a dev server with live reload |
-| `npm run preview` | Serve the built output from `dist/` |
+| Command           | Description                                   |
+| ----------------- | --------------------------------------------- |
+| `npm run clean`   | Remove the `dist/` output directory           |
+| `npm run build`   | Build the site to `dist/`                     |
+| `npm run dev`     | Build and start a dev server with live reload |
+| `npm run preview` | Serve the built output from `dist/`           |
 
 ## How It Works
 
