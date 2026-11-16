@@ -30,13 +30,13 @@ Opens the site at `http://localhost:8080`. The server watches `cv/` and `static-
 
 ### Build
 
-Compiles the CV Markdown files and Nunjucks template to a static HTML page in `dist/`.
+Compiles the CV Markdown files and Nunjucks template to a static HTML page in `_site/`.
 
 ```bash
 npm run build
 ```
 
-Eleventy reads the Nunjucks layout template, loads CV content from Markdown files via a data file, converts Markdown to HTML, and copies static assets (styles, scripts, favicon) to `dist/`.
+Eleventy reads the Nunjucks layout template, loads CV content from Markdown files via a data file, converts Markdown to HTML, and copies static assets (styles, scripts, favicon) to `_site/`.
 
 ### Preview
 
@@ -50,33 +50,15 @@ Opens the site at `http://localhost:3000` (or the next available port).
 
 ## Project Structure
 
-```
-├── .eleventy.js         # Eleventy configuration
-├── cv/                  # CV data in Markdown format (independent of static-app)
-│   ├── experience/      # Individual work experience entries
-│   ├── personal.md
-│   ├── summary.md
-│   ├── skills.md
-│   ├── education.md
-│   └── languages.md
-├── static-app/          # Static app source (Eleventy input directory)
-│   ├── _data/
-│   │   └── cv.js        # Data file: loads and converts CV Markdown to HTML
-│   ├── _includes/
-│   │   └── layout.njk   # Nunjucks layout template
-│   ├── index.njk        # Main page template (uses layout.njk)
-│   ├── styles.css
-│   ├── script.js
-│   └── favicon.svg
-├── dist/                # Generated output (not committed)
-└── package.json         # Project configuration and scripts
-```
-
-Edit the Markdown files in `cv/` to update the content, or edit the Nunjucks layout, styles, and scripts in `static-app/` to change the layout and appearance. Then run `npm run build` to regenerate the site.
+See [docs/project-structure.md](docs/project-structure.md) for the current directory layout.
 
 ## Project Plan
 
 See [docs/agents/plans/portfolio-cv-and-website.md](docs/agents/plans/portfolio-cv-and-website.md) for the project plan and requirements.
+
+## Compromises
+
+See [docs/compromises.md](../docs/compromises.md) for details on architectural trade-offs.
 
 ## Contributors
 

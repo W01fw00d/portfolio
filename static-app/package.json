@@ -4,10 +4,10 @@
   "description": "Eleventy static site that renders CV data from the cv/ vault into a portfolio page.",
   "private": true,
   "scripts": {
-    "clean": "node -e \"require('fs').rmSync('dist', { recursive: true, force: true })\"",
+    "clean": "node -e \"require('fs').rmSync('_site', { recursive: true, force: true })\"",
     "build": "npx @11ty/eleventy",
     "dev": "npx @11ty/eleventy --serve",
-    "preview": "npx serve dist"
+    "preview": "npx serve _site"
   },
   "dependencies": {
     "@11ty/eleventy": "^3.1.8",

@@ -8,8 +8,8 @@
     <title>{{ pageTitle }}</title>
     <meta name="description" content="{{ pageDescription }}" />
     <link rel="canonical" href="{{ site.baseUrl }}" />
-    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="assets/styles.css" />
     <!-- Open Graph tags for social sharing -->
     <meta property="og:title" content="{{ pageTitle }}" />
     <meta property="og:description" content="{{ pageDescription }}" />
@@ -21,11 +21,11 @@
     <header>
       <div class="container">
         <h1>{{ cv.name }}</h1>
+        {{ pageTitle }}
+        <br />
+        <br />
+        {{ pageDescription }}
         {# safe: authored MD from cv/ #}
-        {{ cv.name ~ " - " ~ cv.jobTitle | safe }}
-        <br />
-        {{ cv.jobSubtitle | safe }}
-        <br />
         {{ cv.personal | safe }}
       </div>
     </header>
@@ -78,6 +78,6 @@
       </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="assets/script.js"></script>
   </body>
 </html>

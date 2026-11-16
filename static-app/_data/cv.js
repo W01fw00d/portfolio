@@ -10,9 +10,9 @@ const md = markdownIt({
   typographer: true,
 });
 
-// CV directory is at the monorepo root, independent of static-app/
-// __dirname is static-app/src/_data/, so we go up 3 levels to reach the monorepo root
-const cvDir = join(__dirname, "..", "..", "..", "cv");
+// CV directory is inside _data/, so Eleventy watches it automatically.
+// __dirname is static-app/_data/, so cv/ is a sibling directory.
+const cvDir = join(__dirname, "cv");
 
 function readMarkdownFile(filePath) {
   return readFileSync(filePath, "utf-8");

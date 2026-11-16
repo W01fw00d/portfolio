@@ -13,4 +13,4 @@ skills-lock.json
 node_modules/
 
 # Build output
-static-app/dist/
+static-app/_site/

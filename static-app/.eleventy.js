@@ -16,16 +16,10 @@ module.exports = function (eleventyConfig) {
   // Pass through static assets (CSS, JS, favicon) to the output directory
   // Using explicit object mapping for clear source-to-destination audit trail
   eleventyConfig.addPassthroughCopy({
-    "src/styles.css": "styles.css",
-    "src/script.js": "script.js",
-    "src/favicon.svg": "favicon.svg",
+    "assets/styles.css": "assets/styles.css",
+    "assets/script.js": "assets/script.js",
+    "assets/favicon.svg": "assets/favicon.svg",
   });
-
-  // Watch cv/ directory at the monorepo root for changes (md files are not templates, but we want rebuilds)
-  eleventyConfig.addWatchTarget("../cv");
-
-  // Watch _includes directory for template changes (ensures layout.njk changes trigger rebuilds in dev mode)
-  eleventyConfig.addWatchTarget("./src/_includes");
 
   // Disable DOM diffing and force full page reloads during development.
   // DOM diffing can miss changes in <head> (e.g., title, meta tags) when the layout changes.
@@ -34,10 +28,6 @@ module.exports = function (eleventyConfig) {
   });
 
   return {
-    dir: {
-      input: "src",
-      output: "dist",
-    },
     // Only process njk and html as templates, not md files
     templateFormats: ["njk", "html", "11ty.js"],
   };
