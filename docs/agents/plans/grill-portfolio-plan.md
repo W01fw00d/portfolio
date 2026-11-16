@@ -15,6 +15,7 @@ Create a structured CV data store and a portfolio website for Gabriel Romay that
 5. Meets **WCAG 2.1 AA** accessibility standards
 6. Implements **comprehensive security measures** to protect against XSS, scraping, and privacy leaks
 7. Follows **privacy-by-design** principles for contact data handling
+8. Includes an **avatar image** in the header/hero section for personal branding
 
 ### Scope
 
@@ -27,6 +28,7 @@ Create a structured CV data store and a portfolio website for Gabriel Romay that
 - Dark mode with toggle and auto-detection
 - GitHub Pages deployment
 - Tag cloud display for skills categories
+- **Avatar image** in the header/hero section (WebP, circular, 120x120, `role="presentation"`)
 - **WCAG 2.1 AA accessibility**: skip navigation, semantic HTML, ARIA landmarks, keyboard navigation, custom focus styles, `prefers-reduced-motion` support, color contrast compliance
 - **Lighthouse accessibility audit** as part of validation
 - **Security measures**: XSS prevention (marked sanitization + DOMPurify), Content Security Policy (moderate), email obfuscation (JavaScript), PDF privacy (gitignore)
@@ -42,6 +44,7 @@ Create a structured CV data store and a portfolio website for Gabriel Romay that
 - WCAG 2.1 AAA (AA is the target)
 - Contact form (would require backend)
 - Analytics or tracking (privacy-first approach)
+- Real photo (avatar only, no biometric data)
 
 ### User Stories
 
@@ -49,6 +52,7 @@ Create a structured CV data store and a portfolio website for Gabriel Romay that
 - As a developer, I want a local build script to convert Markdown to HTML so I don't need a complex build pipeline
 - As a job seeker, I want a portfolio website that displays my CV with a professional timeline layout
 - As a maintainer, I want the site to deploy to GitHub Pages so I don't need manual hosting
+- **As a visitor, I want to see an avatar in the header so the portfolio feels personal and professional**
 - **As a user with a screen reader, I want semantic HTML and ARIA landmarks so I can navigate the portfolio efficiently**
 - **As a keyboard user, I want a skip navigation link and visible focus indicators so I can navigate without a mouse**
 - **As a user with vestibular disorders, I want animations disabled when my system prefers reduced motion**
@@ -66,16 +70,22 @@ Create a structured CV data store and a portfolio website for Gabriel Romay that
 
 3. **Portfolio Website**: Static HTML/CSS/JS. Timeline-style experience layout. Tag cloud for skills. Sticky sidebar navigation with smooth scroll. Dark mode toggle. System fonts. Responsive design.
 
-4. **Contact Info (Privacy-Conscious)**:
+4. **Avatar Image**:
+   - Placed in the **header/hero section** next to the name and title
+   - Format: **WebP**, circular crop, **120x120 pixels**
+   - Accessibility: `role="presentation"` (decorative, hidden from screen readers)
+   - Stored in the repo as an optimized version; original high-res image kept private
+
+5. **Contact Info (Privacy-Conscious)**:
    - Email as **obfuscated JavaScript-generated mailto link** (to prevent scraping)
    - GitHub and LinkedIn profile links
    - 'Open to remote positions' note
    - **No phone number** (excluded from portfolio for privacy, kept in local PDFs only)
    - Location: "Palma de Mallorca, Spain" (city-level, public)
 
-5. **GitHub Pages**: Simple settings — enable Pages in repo settings, point to main branch root.
+6. **GitHub Pages**: Simple settings — enable Pages in repo settings, point to main branch root.
 
-6. **Accessibility (WCAG 2.1 AA)**:
+7. **Accessibility (WCAG 2.1 AA)**:
    - Skip navigation link (visible on focus, jumps to main content)
    - Semantic HTML structure with ARIA landmarks
    - Keyboard navigation for all interactive elements
@@ -85,12 +95,12 @@ Create a structured CV data store and a portfolio website for Gabriel Romay that
    - Skills tags distinguishable by more than color alone (WCAG 1.4.1)
    - Dark mode toggle labeled with aria-pressed or aria-checked
 
-7. **Security**:
+8. **Security**:
    - **XSS Prevention**: Sanitize all Markdown output using marked's built-in sanitizer and DOMPurify library
    - **Content Security Policy**: Moderate CSP via `<meta>` tag allowing same-origin scripts and trusted sources
    - **Email Obfuscation**: JavaScript-generated mailto link to prevent bot scraping
 
-8. **Privacy**:
+9. **Privacy**:
    - **No phone number** in the public portfolio (kept in local PDFs only)
    - **No tracking or analytics** (zero visitor data collection)
    - **PDFs excluded from public repo** via `.gitignore` (contains phone number and full address)
@@ -111,6 +121,7 @@ Create a structured CV data store and a portfolio website for Gabriel Romay that
 ### Current Implementation
 
 The project is essentially empty:
+
 - `README.md` — describes a static portfolio
 - `docs/` — agent documentation only
 - No website code, no structured CV data file
@@ -153,6 +164,8 @@ The project is essentially empty:
 
 18. **City-level location** (privacy grilling): Show "Palma de Mallorca, Spain" — standard for CVs, helpful for local opportunities, low privacy risk.
 
+19. **Avatar image, not real photo** (image grilling): Use an avatar image instead of a real photo for privacy. The avatar is placed in the header/hero section, formatted as WebP (circular, 120x120), and marked as decorative (`role="presentation"`) for screen readers. The optimized avatar is stored in the repo; the original high-res image is kept private.
+
 ### Proposed Changes
 
 1. **Create `cv/` folder** with individual Markdown files:
@@ -175,13 +188,19 @@ The project is essentially empty:
    - Outputs to project root
 
 3. **Create portfolio website** (generated by build script):
-   - `index.html` — generated from template, with semantic structure, sticky sidebar nav, SEO meta tags, Open Graph tags, **skip navigation link**, **ARIA landmarks**, **CSP meta tag**
-   - `styles.css` — timeline layout, tag cloud for skills, CSS custom properties, responsive design, dark mode, system fonts, **custom focus indicators**, **`prefers-reduced-motion` support**, **color contrast compliance**
+   - `index.html` — generated from template, with semantic structure, sticky sidebar nav, SEO meta tags, Open Graph tags, **skip navigation link**, **ARIA landmarks**, **CSP meta tag**, **avatar image in header**
+   - `styles.css` — timeline layout, tag cloud for skills, CSS custom properties, responsive design, dark mode, system fonts, **custom focus indicators**, **`prefers-reduced-motion` support**, **color contrast compliance**, **avatar circular styling**
    - `script.js` — dark mode toggle with localStorage, smooth scroll, scroll spy for active section highlighting, reads `date.json` for footer, **`prefers-reduced-motion` detection**, **keyboard navigation support**, **email obfuscation**
 
-4. **Update `README.md`** with project structure and build/deploy instructions.
+4. **Add avatar image** (`img/avatar.webp`):
+   - WebP format, circular crop, 120x120 pixels
+   - Referenced in the header/hero section of `index.html`
+   - Styled with CSS for circular appearance
+   - Marked with `role="presentation"` for accessibility
 
-5. **Add `.gitignore`** to exclude `node_modules/` and `pdfs/`.
+5. **Update `README.md`** with project structure and build/deploy instructions.
+
+6. **Add `.gitignore`** to exclude `node_modules/` and `pdfs/`.
 
 ### File Structure
 
@@ -198,6 +217,8 @@ portfolio/
 │   ├── skills.md
 │   ├── education.md
 │   └── languages.md
+├── img/                               # Images (avatar only)
+│   └── avatar.webp                    # Avatar image (WebP, 120x120, circular)
 ├── build.mjs                          # Local build script (Node.js + marked + dompurify)
 ├── index.html                         # Generated by build script
 ├── styles.css                         # Website styles
@@ -219,12 +240,13 @@ graph LR
   D -->|assemble with semantic HTML| E[index.html]
   E -->|style| F[styles.css]
   F -->|a11y| G[focus styles, reduced motion, contrast]
-  E -->|interact| H[script.js]
-  H -->|a11y| I[reduced motion, keyboard nav]
-  H -->|security| J[email obfuscation]
-  H -->|read| K[date.json]
-  B -->|write| K
-  E -->|security| L[CSP meta tag]
+  F -->|avatar| H[img/avatar.webp]
+  E -->|interact| I[script.js]
+  I -->|a11y| J[reduced motion, keyboard nav]
+  I -->|security| K[email obfuscation]
+  I -->|read| L[date.json]
+  B -->|write| L
+  E -->|security| M[CSP meta tag]
 ```
 
 ### Risks
@@ -240,6 +262,7 @@ graph LR
 - **Email obfuscation**: JavaScript-generated mailto link requires JS to be enabled. Users with JS disabled won't see the email link.
 - **PDF privacy**: If PDFs are accidentally committed to the repo, the phone number and full address become public. The `.gitignore` must be verified before the first push.
 - **Location exposure**: City-level location (Palma de Mallorca, Spain) is public. This is standard for CVs but adds identifying information.
+- **Avatar image**: The avatar is in the public repo. Since it's an avatar (not a real photo), the privacy risk is low. The original high-res image should be kept private.
 
 # Testing
 
@@ -250,32 +273,35 @@ The agent will validate by running the build script and checking the output loca
 ### Key Scenarios
 
 1. **Build script**: Run `node build.mjs` and verify that `index.html` is generated with correct content from all CV files.
-2. **HTML structure**: Open `index.html` in a browser and verify all sections render correctly (header, summary, experience timeline, skills tag cloud, education, languages, footer).
-3. **Semantic HTML**: Verify the generated HTML uses proper semantic elements (nav, main, section, article, aside, footer) and heading hierarchy (h1-h2-h3).
-4. **ARIA landmarks**: Verify ARIA landmarks are present and correctly labeled.
-5. **Dark mode**: Toggle dark mode and verify it persists across page reloads (localStorage).
-6. **Responsive design**: Resize browser to mobile width and verify sidebar collapses, timeline adapts, and skills grid collapses.
-7. **Smooth scroll**: Click navigation links and verify smooth scrolling to sections.
-8. **Scroll spy**: Scroll through the page and verify active section is highlighted in the sidebar.
-9. **Footer date**: Verify `date.json` is written by the build script and the footer displays the date.
-10. **Skip navigation**: Tab to the skip link and verify it jumps to the main content area.
-11. **Keyboard navigation**: Navigate the entire page using only the keyboard (Tab, Shift+Tab, Enter, Space, Arrow keys).
-12. **Focus indicators**: Verify custom focus indicators are visible on all interactive elements in both light and dark modes.
-13. **Reduced motion**: Set `prefers-reduced-motion: reduce` in browser dev tools and verify smooth scroll and animations are disabled.
-14. **Color contrast**: Verify text color contrast ratios meet WCAG AA (4.5:1 for normal text, 3:1 for large text) in both light and dark modes.
-15. **Lighthouse audit**: Run a Lighthouse accessibility audit on `index.html` and verify a score of 90+ (target 100).
-16. **XSS prevention**: Attempt to inject malicious Markdown (e.g., `<script>` tags) and verify it's sanitized by marked and DOMPurify.
-17. **CSP validation**: Verify the CSP meta tag is present and correctly configured. Test that it blocks unauthorized scripts.
-18. **Email obfuscation**: Verify the email is not visible in the HTML source but is accessible via the mailto link in the browser.
-19. **No phone number**: Verify the portfolio contains no phone number in the HTML or source code.
-20. **No tracking**: Verify the portfolio contains no analytics scripts, cookies, or tracking mechanisms.
-21. **PDF privacy**: Verify the `pdfs/` folder is excluded from the public repo via `.gitignore`.
+2. **HTML structure**: Open `index.html` in a browser and verify all sections render correctly (header with avatar, summary, experience timeline, skills tag cloud, education, languages, footer).
+3. **Avatar rendering**: Verify the avatar image loads correctly in the header/hero section, appears circular, and is 120x120 pixels.
+4. **Avatar accessibility**: Verify the avatar has `role="presentation"` and is hidden from screen readers.
+5. **Semantic HTML**: Verify the generated HTML uses proper semantic elements (nav, main, section, article, aside, footer) and heading hierarchy (h1-h2-h3).
+6. **ARIA landmarks**: Verify ARIA landmarks are present and correctly labeled.
+7. **Dark mode**: Toggle dark mode and verify it persists across page reloads (localStorage).
+8. **Responsive design**: Resize browser to mobile width and verify sidebar collapses, timeline adapts, and skills grid collapses.
+9. **Smooth scroll**: Click navigation links and verify smooth scrolling to sections.
+10. **Scroll spy**: Scroll through the page and verify active section is highlighted in the sidebar.
+11. **Footer date**: Verify `date.json` is written by the build script and the footer displays the date.
+12. **Skip navigation**: Tab to the skip link and verify it jumps to the main content area.
+13. **Keyboard navigation**: Navigate the entire page using only the keyboard (Tab, Shift+Tab, Enter, Space, Arrow keys).
+14. **Focus indicators**: Verify custom focus indicators are visible on all interactive elements in both light and dark modes.
+15. **Reduced motion**: Set `prefers-reduced-motion: reduce` in browser dev tools and verify smooth scroll and animations are disabled.
+16. **Color contrast**: Verify text color contrast ratios meet WCAG AA (4.5:1 for normal text, 3:1 for large text) in both light and dark modes.
+17. **Lighthouse audit**: Run a Lighthouse accessibility audit on `index.html` and verify a score of 90+ (target 100).
+18. **XSS prevention**: Attempt to inject malicious Markdown (e.g., `<script>` tags) and verify it's sanitized by marked and DOMPurify.
+19. **CSP validation**: Verify the CSP meta tag is present and correctly configured. Test that it blocks unauthorized scripts.
+20. **Email obfuscation**: Verify the email is not visible in the HTML source but is accessible via the mailto link in the browser.
+21. **No phone number**: Verify the portfolio contains no phone number in the HTML or source code.
+22. **No tracking**: Verify the portfolio contains no analytics scripts, cookies, or tracking mechanisms.
+23. **PDF privacy**: Verify the `pdfs/` folder is excluded from the public repo via `.gitignore`.
 
 ### Edge Cases
 
 - Missing CV file: Build script should handle missing files gracefully (error message or skip).
 - Missing `date.json`: Website should omit the 'last updated' date if the file doesn't exist.
 - Empty skill category: Skills section should handle categories with no skills gracefully.
+- **Missing avatar**: Website should handle gracefully if `img/avatar.webp` is missing (e.g., show initials or placeholder).
 - **Screen reader**: Test with a screen reader (NVDA, VoiceOver, or JAWS) to verify the page is navigable and content is announced correctly.
 - **High contrast mode**: Verify the portfolio works in Windows High Contrast mode and macOS Increase Contrast.
 - **XSS attack**: Test with malicious Markdown input to verify sanitization works.
@@ -285,30 +311,38 @@ The agent will validate by running the build script and checking the output loca
 
 # Delivery Steps
 
-###   Step 1: Create cv/ folder with Markdown files
+### Step 1: Create cv/ folder with Markdown files
+
 Extract CV data from the PDF and create structured Markdown files.
+
 - Create `cv/` folder and `cv/experience/` subfolder
 - Create `cv/personal.md` with name, title, location (Palma de Mallorca, Spain), contact (mailto email, GitHub, LinkedIn; 'Open to remote positions')
 - Create `cv/summary.md` with professional summary
 - Create `cv/experience/01-stuart.md` through `04-edreams.md` with consistent structure (header, company description, tech stack, key contributions, optional technical leadership)
 - Create `cv/skills.md` with 10 categorized skill sections
-- Create `cv/education.md` and `cv/languages.md"
+- Create `cv/education.md` and `cv/languages.md`
 
-###   Step 2: Create build script with semantic HTML, sanitization, and generate index.html
+### Step 2: Create build script with semantic HTML, sanitization, and generate index.html
+
 Build the local Node.js script that converts Markdown to HTML with semantic wrappers, sanitization, and assembles the website.
+
 - Create `build.mjs` with `marked` and `dompurify` dependencies
 - Implement Markdown-to-HTML conversion for all CV files
 - **Sanitize output using marked's built-in sanitizer and DOMPurify**
 - Wrap each section with semantic HTML elements (nav, main, section, article, aside, footer) and ARIA landmarks
 - Ensure heading hierarchy (h1 for page title, h2 for section headings, h3 for subsections)
-- Create HTML template with skip navigation link, section placeholders, SEO meta tags, Open Graph tags, and **CSP meta tag**
+- Create HTML template with skip navigation link, section placeholders, SEO meta tags, Open Graph tags, **CSP meta tag**, and **avatar image reference**
 - Inject rendered HTML fragments into the template
 - Write current date to `date.json`
 - Run the script to generate `index.html` and verify output
 
-###   Step 3: Build the static portfolio website with a11y and security
-Create the CSS and client-side JavaScript for the portfolio with full WCAG 2.1 AA accessibility and security measures.
+### Step 3: Build the static portfolio website with a11y, security, and avatar
+
+Create the CSS, client-side JavaScript, and avatar image for the portfolio with full WCAG 2.1 AA accessibility and security measures.
+
+- Create `img/` folder and add `img/avatar.webp` (WebP, circular, 120x120, with `role="presentation"`)
 - Create `styles.css` with timeline layout for experience, tag cloud for skills, CSS custom properties, responsive design, dark mode, system fonts, sticky sidebar styling
+- Add **avatar circular styling** in CSS
 - Add **custom focus indicators** (visible in both light and dark modes)
 - Add **`prefers-reduced-motion`** CSS media query to disable animations
 - Ensure **color contrast** meets WCAG AA (4.5:1 for normal text, 3:1 for large text) in both modes
@@ -317,15 +351,18 @@ Create the CSS and client-side JavaScript for the portfolio with full WCAG 2.1 A
 - Add **`prefers-reduced-motion` detection** in JS to disable smooth scroll when preferred
 - Add **keyboard navigation** support for all interactive elements
 - Add **email obfuscation** using JavaScript to generate the mailto link
-- Test locally: verify all sections render, dark mode works, responsive layout, smooth scroll, scroll spy, skip link, keyboard nav, focus indicators, reduced motion, email obfuscation
+- Test locally: verify all sections render, avatar loads, dark mode works, responsive layout, smooth scroll, scroll spy, skip link, keyboard nav, focus indicators, reduced motion, email obfuscation
 
-###   Step 4: Validate accessibility, security, and finalize deployment
+### Step 4: Validate accessibility, security, and finalize deployment
+
 Run accessibility and security validation and finalize deployment documentation.
+
 - Run a **Lighthouse accessibility audit** on `index.html` and verify a score of 90+ (target 100)
 - **Test XSS prevention** by injecting malicious Markdown and verifying sanitization
 - **Verify CSP** is correctly configured and blocks unauthorized scripts
 - **Verify email obfuscation** prevents scraping
+- **Verify avatar** renders correctly and is hidden from screen readers
 - Fix any a11y or security issues found
 - Update `README.md` with project structure, build instructions (`node build.mjs`), and GitHub Pages deployment steps
-- Add `.gitignore` for `node_modules/`
+- Add `.gitignore` for `node_modules/` and `pdfs/`
 - Verify the generated `index.html` is valid and complete
