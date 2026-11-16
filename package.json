@@ -1,15 +1,15 @@
 {
   "name": "portfolio",
   "version": "1.0.0",
-  "description": "A static portfolio website displaying my CV and professional information.",
+  "description": "Monorepo containing CV data (cv/) and a static portfolio site (static-app/).",
   "private": true,
+  "workspaces": [
+    "static-app"
+  ],
   "scripts": {
-    "build": "npx @11ty/eleventy",
-    "dev": "npx @11ty/eleventy --serve",
-    "preview": "npx serve dist"
-  },
-  "dependencies": {
-    "@11ty/eleventy": "^3.1.8",
-    "markdown-it": "^15.0.3"
+    "clean": "cd static-app && npm run clean",
+    "build": "cd static-app && npm run build",
+    "dev": "cd static-app && npm run dev",
+    "preview": "cd static-app && npm run preview"
   }
 }

@@ -1,0 +1,16 @@
+{
+  "name": "static-app",
+  "version": "1.0.0",
+  "description": "Eleventy static site that renders CV data from the cv/ vault into a portfolio page.",
+  "private": true,
+  "scripts": {
+    "clean": "node -e \"require('fs').rmSync('dist', { recursive: true, force: true })\"",
+    "build": "npx @11ty/eleventy",
+    "dev": "npx @11ty/eleventy --serve",
+    "preview": "npx serve dist"
+  },
+  "dependencies": {
+    "@11ty/eleventy": "^3.1.8",
+    "markdown-it": "^15.0.3"
+  }
+}
