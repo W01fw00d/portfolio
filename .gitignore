@@ -1,18 +1,16 @@
-# local only
+# Local-only files
 notes.md
-pdfs
+pdfs/
 
 # AI agents
-.agents
-.junie
+.agents/
+.junie/
 
 # AI agents skills
 skills-lock.json
-
-
 
 # Dependencies
 node_modules/
 
 # Build output
-dist/
+static-app/dist/
