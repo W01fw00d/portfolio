@@ -24,6 +24,15 @@ module.exports = function (eleventyConfig) {
   // Watch cv/ directory at the monorepo root for changes (md files are not templates, but we want rebuilds)
   eleventyConfig.addWatchTarget("../cv");
 
+  // Watch _includes directory for template changes (ensures layout.njk changes trigger rebuilds in dev mode)
+  eleventyConfig.addWatchTarget("./src/_includes");
+
+  // Disable DOM diffing and force full page reloads during development.
+  // DOM diffing can miss changes in <head> (e.g., title, meta tags) when the layout changes.
+  eleventyConfig.setServerOptions({
+    domDiff: false,
+  });
+
   return {
     dir: {
       input: "src",
