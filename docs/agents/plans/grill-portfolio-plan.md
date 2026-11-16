@@ -13,6 +13,7 @@ Create a structured CV data store and a portfolio website for Gabriel Romay that
 3. Displays as a professional portfolio website with timeline-style experience
 4. Deploys to GitHub Pages for free hosting
 5. Meets **WCAG 2.1 AA** accessibility standards
+6. Implements **comprehensive security measures** to protect against XSS, scraping, and privacy leaks
 
 ### Scope
 
@@ -27,10 +28,11 @@ Create a structured CV data store and a portfolio website for Gabriel Romay that
 - Tag cloud display for skills categories
 - **WCAG 2.1 AA accessibility**: skip navigation, semantic HTML, ARIA landmarks, keyboard navigation, custom focus styles, `prefers-reduced-motion` support, color contrast compliance
 - **Lighthouse accessibility audit** as part of validation
+- **Security measures**: XSS prevention (marked sanitization + DOMPurify), Content Security Policy (moderate), email obfuscation (JavaScript), PDF privacy (gitignore)
 
 **Out of Scope:**
 
-- PDF generation from Markdown files (existing PDFs in `pdfs/` remain as-is)
+- PDF generation from Markdown files (existing PDFs in `pdfs/` remain as-is, but will be gitignored)
 - Multi-language support (English only)
 - Backend or database
 - Blog or additional content beyond CV/portfolio
@@ -46,16 +48,19 @@ Create a structured CV data store and a portfolio website for Gabriel Romay that
 - **As a user with a screen reader, I want semantic HTML and ARIA landmarks so I can navigate the portfolio efficiently**
 - **As a keyboard user, I want a skip navigation link and visible focus indicators so I can navigate without a mouse**
 - **As a user with vestibular disorders, I want animations disabled when my system prefers reduced motion**
+- **As a site owner, I want protection against XSS attacks so my portfolio is secure**
+- **As a site owner, I want my email obfuscated so bots can't scrape it**
+- **As a site owner, I want sensitive data (PDFs) excluded from the public repo**
 
 ### Functional Requirements
 
 1. **CV Data Files**: Split into Markdown files by section; each work experience in its own file in `cv/experience/` with numeric prefixes.
 
-2. **Build Script**: Local Node.js script that converts all `cv/*.md` to HTML fragments, generates `index.html` with meta tags from CV data, and writes the current date to `date.json`. Wraps each section with **semantic HTML elements** (nav, main, section, article, aside, footer) and proper **heading hierarchy** (h1-h2-h3).
+2. **Build Script**: Local Node.js script that converts all `cv/*.md` to HTML fragments, generates `index.html` with meta tags from CV data, and writes the current date to `date.json`. Wraps each section with **semantic HTML elements** (nav, main, section, article, aside, footer) and proper **heading hierarchy** (h1-h2-h3). **Sanitizes Markdown output using marked's built-in sanitizer and DOMPurify for defense in depth.**
 
 3. **Portfolio Website**: Static HTML/CSS/JS. Timeline-style experience layout. Tag cloud for skills. Sticky sidebar navigation with smooth scroll. Dark mode toggle. System fonts. Responsive design.
 
-4. **Contact Info**: Email as mailto link, GitHub and LinkedIn links, 'Open to remote positions' note. No phone number for privacy.
+4. **Contact Info**: Email as **obfuscated JavaScript-generated mailto link** (to prevent scraping), GitHub and LinkedIn links, 'Open to remote positions' note. No phone number for privacy.
 
 5. **GitHub Pages**: Simple settings — enable Pages in repo settings, point to main branch root.
 
@@ -69,10 +74,17 @@ Create a structured CV data store and a portfolio website for Gabriel Romay that
    - Skills tags distinguishable by more than color alone (WCAG 1.4.1)
    - Dark mode toggle labeled with aria-pressed or aria-checked
 
+7. **Security**:
+   - **XSS Prevention**: Sanitize all Markdown output using marked's built-in sanitizer and DOMPurify library
+   - **Content Security Policy**: Moderate CSP via `<meta>` tag allowing same-origin scripts and trusted sources
+   - **Email Obfuscation**: JavaScript-generated mailto link to prevent bot scraping
+   - **PDF Privacy**: Exclude `pdfs/` folder from public repo via `.gitignore`
+
 ### Non-Functional Requirements
 
 - **Performance**: No runtime Markdown fetching; all content pre-rendered to static HTML
 - **Accessibility**: WCAG 2.1 AA compliance validated via Lighthouse audit
+- **Security**: XSS protection, CSP, email obfuscation, and PDF privacy
 - **Responsive**: Works on mobile, tablet, and desktop
 - **Dark Mode**: Follows system preference, user override persisted in localStorage
 
@@ -110,6 +122,14 @@ The project is essentially empty:
 
 11. **Lighthouse audit for validation** (new): Run a Lighthouse accessibility audit on the generated `index.html` before deployment to catch automated a11y issues.
 
+12. **XSS Prevention with marked + DOMPurify** (new): Use marked's built-in sanitizer and DOMPurify library for defense in depth against XSS attacks via Markdown.
+
+13. **Moderate CSP** (new): Add a `<meta>` tag with Content Security Policy allowing same-origin scripts and trusted sources. Balanced security and functionality.
+
+14. **JavaScript email obfuscation** (new): Generate the mailto link in JavaScript to prevent bot scraping of the email address.
+
+15. **PDF privacy via .gitignore** (new): Exclude the `pdfs/` folder from the public repo to protect sensitive data in CV PDFs.
+
 ### Proposed Changes
 
 1. **Create `cv/` folder** with individual Markdown files:
@@ -121,9 +141,10 @@ The project is essentially empty:
    - `cv/languages.md` — language proficiency
 
 2. **Create build script** (`build.mjs`):
-   - Node.js script using `marked` package
+   - Node.js script using `marked` package and `dompurify` for sanitization
    - Reads all `cv/*.md` files
    - Converts Markdown to HTML fragments
+   - **Sanitizes output using marked's built-in sanitizer and DOMPurify**
    - Wraps each section with **semantic HTML** (nav, main, section, article, aside, footer) and **ARIA landmarks**
    - Ensures **heading hierarchy** (h1 for page title, h2 for section headings, h3 for subsections)
    - Assembles `index.html` from a template, injecting HTML fragments and meta tags
@@ -131,11 +152,13 @@ The project is essentially empty:
    - Outputs to project root
 
 3. **Create portfolio website** (generated by build script):
-   - `index.html` — generated from template, with semantic structure, sticky sidebar nav, SEO meta tags, Open Graph tags, **skip navigation link**, **ARIA landmarks**
+   - `index.html` — generated from template, with semantic structure, sticky sidebar nav, SEO meta tags, Open Graph tags, **skip navigation link**, **ARIA landmarks**, **CSP meta tag**
    - `styles.css` — timeline layout, tag cloud for skills, CSS custom properties, responsive design, dark mode, system fonts, **custom focus indicators**, **`prefers-reduced-motion` support**, **color contrast compliance**
-   - `script.js` — dark mode toggle with localStorage, smooth scroll, scroll spy for active section highlighting, reads `date.json` for footer, **`prefers-reduced-motion` detection**, **keyboard navigation support**
+   - `script.js` — dark mode toggle with localStorage, smooth scroll, scroll spy for active section highlighting, reads `date.json` for footer, **`prefers-reduced-motion` detection**, **keyboard navigation support**, **email obfuscation**
 
 4. **Update `README.md`** with project structure and build/deploy instructions.
+
+5. **Add `.gitignore`** to exclude `pdfs/` folder and `node_modules/`.
 
 ### File Structure
 
@@ -152,13 +175,14 @@ portfolio/
 │   ├── skills.md
 │   ├── education.md
 │   └── languages.md
-├── build.mjs                          # Local build script (Node.js + marked)
+├── build.mjs                          # Local build script (Node.js + marked + dompurify)
 ├── index.html                         # Generated by build script
 ├── styles.css                         # Website styles
 ├── script.js                          # Client-side interactivity
 ├── date.json                          # Written by build script
+├── .gitignore                         # Excludes pdfs/ and node_modules/
 ├── README.md                          # Updated docs
-├── pdfs/                              # Existing CV PDFs (unchanged)
+├── pdfs/                              # Existing CV PDFs (gitignored, not public)
 └── docs/                              # Existing agent docs (unchanged)
 ```
 
@@ -168,13 +192,16 @@ portfolio/
 graph LR
   A[cv/*.md] -->|read| B[build.mjs]
   B -->|parse| C[marked npm]
-  C -->|assemble with semantic HTML| D[index.html]
-  D -->|style| E[styles.css]
-  E -->|a11y| F[focus styles, reduced motion, contrast]
-  D -->|interact| G[script.js]
-  G -->|a11y| H[reduced motion, keyboard nav]
-  G -->|read| I[date.json]
-  B -->|write| I
+  C -->|sanitize| D[DOMPurify]
+  D -->|assemble with semantic HTML| E[index.html]
+  E -->|style| F[styles.css]
+  F -->|a11y| G[focus styles, reduced motion, contrast]
+  E -->|interact| H[script.js]
+  H -->|a11y| I[reduced motion, keyboard nav]
+  H -->|security| J[email obfuscation]
+  H -->|read| K[date.json]
+  B -->|write| K
+  E -->|security| L[CSP meta tag]
 ```
 
 ### Risks
@@ -185,12 +212,15 @@ graph LR
 - **date.json on first build**: Before the first build run, `date.json` won't exist. The website should handle this gracefully.
 - **Color contrast in dark mode**: Dark mode color palette must be carefully chosen to maintain WCAG AA contrast ratios (4.5:1 for normal text). Needs validation with a contrast checker.
 - **Skills tag distinguishability**: Tags must be distinguishable by more than color alone (e.g., shape, icon, or text label) to meet WCAG 1.4.1.
+- **DOMPurify dependency**: Adds a runtime dependency for sanitization. Need to ensure it's loaded correctly in the browser.
+- **CSP compatibility**: The moderate CSP may block some legitimate scripts or resources. Need to test thoroughly.
+- **Email obfuscation**: JavaScript-generated mailto link requires JS to be enabled. Users with JS disabled won't see the email link.
 
 # Testing
 
 ### Validation Approach
 
-The agent will validate by running the build script and checking the output locally, including a Lighthouse accessibility audit.
+The agent will validate by running the build script and checking the output locally, including a Lighthouse accessibility audit and security checks.
 
 ### Key Scenarios
 
@@ -209,6 +239,10 @@ The agent will validate by running the build script and checking the output loca
 13. **Reduced motion**: Set `prefers-reduced-motion: reduce` in browser dev tools and verify smooth scroll and animations are disabled.
 14. **Color contrast**: Verify text color contrast ratios meet WCAG AA (4.5:1 for normal text, 3:1 for large text) in both light and dark modes.
 15. **Lighthouse audit**: Run a Lighthouse accessibility audit on `index.html` and verify a score of 90+ (target 100).
+16. **XSS prevention**: Attempt to inject malicious Markdown (e.g., `<script>` tags) and verify it's sanitized by marked and DOMPurify.
+17. **CSP validation**: Verify the CSP meta tag is present and correctly configured. Test that it blocks unauthorized scripts.
+18. **Email obfuscation**: Verify the email is not visible in the HTML source but is accessible via the mailto link in the browser.
+19. **PDF privacy**: Verify the `pdfs/` folder is excluded from the public repo via `.gitignore`.
 
 ### Edge Cases
 
@@ -217,6 +251,9 @@ The agent will validate by running the build script and checking the output loca
 - Empty skill category: Skills section should handle categories with no skills gracefully.
 - **Screen reader**: Test with a screen reader (NVDA, VoiceOver, or JAWS) to verify the page is navigable and content is announced correctly.
 - **High contrast mode**: Verify the portfolio works in Windows High Contrast mode and macOS Increase Contrast.
+- **XSS attack**: Test with malicious Markdown input to verify sanitization works.
+- **CSP violations**: Test with scripts that should be blocked by CSP to verify enforcement.
+- **Email scraping**: Test with common email scraping tools to verify obfuscation works.
 
 # Delivery Steps
 
@@ -229,19 +266,20 @@ Extract CV data from the PDF and create structured Markdown files.
 - Create `cv/skills.md` with 10 categorized skill sections
 - Create `cv/education.md` and `cv/languages.md`
 
-###   Step 2: Create build script with semantic HTML and generate index.html
-Build the local Node.js script that converts Markdown to HTML with semantic wrappers and assembles the website.
-- Create `build.mjs` with `marked` dependency
+###   Step 2: Create build script with semantic HTML, sanitization, and generate index.html
+Build the local Node.js script that converts Markdown to HTML with semantic wrappers, sanitization, and assembles the website.
+- Create `build.mjs` with `marked` and `dompurify` dependencies
 - Implement Markdown-to-HTML conversion for all CV files
+- **Sanitize output using marked's built-in sanitizer and DOMPurify**
 - Wrap each section with semantic HTML elements (nav, main, section, article, aside, footer) and ARIA landmarks
 - Ensure heading hierarchy (h1 for page title, h2 for section headings, h3 for subsections)
-- Create HTML template with skip navigation link, section placeholders, SEO meta tags, and Open Graph tags
+- Create HTML template with skip navigation link, section placeholders, SEO meta tags, Open Graph tags, and **CSP meta tag**
 - Inject rendered HTML fragments into the template
 - Write current date to `date.json`
 - Run the script to generate `index.html` and verify output
 
-###   Step 3: Build the static portfolio website with a11y
-Create the CSS and client-side JavaScript for the portfolio with full WCAG 2.1 AA accessibility.
+###   Step 3: Build the static portfolio website with a11y and security
+Create the CSS and client-side JavaScript for the portfolio with full WCAG 2.1 AA accessibility and security measures.
 - Create `styles.css` with timeline layout for experience, tag cloud for skills, CSS custom properties, responsive design, dark mode, system fonts, sticky sidebar styling
 - Add **custom focus indicators** (visible in both light and dark modes)
 - Add **`prefers-reduced-motion`** CSS media query to disable animations
@@ -250,12 +288,17 @@ Create the CSS and client-side JavaScript for the portfolio with full WCAG 2.1 A
 - Create `script.js` with dark mode toggle (localStorage persistence), smooth scroll, scroll spy for active section highlighting, `date.json` fetch for footer
 - Add **`prefers-reduced-motion` detection** in JS to disable smooth scroll when preferred
 - Add **keyboard navigation** support for all interactive elements
-- Test locally: verify all sections render, dark mode works, responsive layout, smooth scroll, scroll spy, skip link, keyboard nav, focus indicators, reduced motion
+- Add **email obfuscation** using JavaScript to generate the mailto link
+- Test locally: verify all sections render, dark mode works, responsive layout, smooth scroll, scroll spy, skip link, keyboard nav, focus indicators, reduced motion, email obfuscation
 
-###   Step 4: Validate accessibility and finalize deployment
-Run accessibility validation and finalize deployment documentation.
+###   Step 4: Validate accessibility, security, and finalize deployment
+Run accessibility and security validation and finalize deployment documentation.
 - Run a **Lighthouse accessibility audit** on `index.html` and verify a score of 90+ (target 100)
-- Fix any a11y issues found by Lighthouse
+- **Test XSS prevention** by injecting malicious Markdown and verifying sanitization
+- **Verify CSP** is correctly configured and blocks unauthorized scripts
+- **Verify email obfuscation** prevents scraping
+- **Verify PDF privacy** by checking `.gitignore` excludes `pdfs/`
+- Fix any a11y or security issues found
 - Update `README.md` with project structure, build instructions (`node build.mjs`), and GitHub Pages deployment steps
-- Add `.gitignore` for node_modules if needed
+- Add `.gitignore` for `node_modules/` and `pdfs/`
 - Verify the generated `index.html` is valid and complete
