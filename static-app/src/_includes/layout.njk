@@ -3,14 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{{ site.title }}</title>
-    <meta name="description" content="{{ site.description }}" />
+    {% set pageTitle = cv.name ~ " - " ~ cv.jobTitle %}
+    {% set pageDescription = cv.jobSubtitle %}
+    <title>{{ pageTitle }}</title>
+    <meta name="description" content="{{ pageDescription }}" />
     <link rel="canonical" href="{{ site.baseUrl }}" />
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="styles.css" />
     <!-- Open Graph tags for social sharing -->
-    <meta property="og:title" content="{{ site.title }}" />
-    <meta property="og:description" content="{{ site.description }}" />
+    <meta property="og:title" content="{{ pageTitle }}" />
+    <meta property="og:description" content="{{ pageDescription }}" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="{{ site.baseUrl }}" />
   </head>
@@ -18,7 +20,12 @@
     <a class="skip-to-content" href="#main">Skip to main content</a>
     <header>
       <div class="container">
+        <h1>{{ cv.name }}</h1>
         {# safe: authored MD from cv/ #}
+        {{ cv.name ~ " - " ~ cv.jobTitle | safe }}
+        <br />
+        {{ cv.jobSubtitle | safe }}
+        <br />
         {{ cv.personal | safe }}
       </div>
     </header>
@@ -67,7 +74,7 @@
 
     <footer>
       <div class="container">
-        <p>&copy; {{ cv.year }} Gabriel Romay Machado</p>
+        <p>&copy; {{ cv.year }} {{ cv.name }}</p>
       </div>
     </footer>
 

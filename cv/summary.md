@@ -1,6 +1,6 @@
 # Professional Summary
 
-**Senior Full-Stack Engineer** with 10+ years of experience building scalable web applications in international product environments.
+10+ years of experience building scalable web applications in international product environments.
 
 Specialised in **React** and **TypeScript**, with strong experience in frontend architecture, micro-frontends, design systems, reusable component libraries and developer tooling.
 

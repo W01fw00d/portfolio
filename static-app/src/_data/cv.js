@@ -41,9 +41,32 @@ function getMarkdownFiles(dir, baseDir) {
   return files.sort((a, b) => a.relativePath.localeCompare(b.relativePath));
 }
 
+function readSimpleFile(fileName) {
+  const filePath = join(cvDir, fileName);
+  try {
+    const text = readFileSync(filePath, "utf-8");
+    return text.trim();
+  } catch (err) {
+    console.error(`[cv.js] Missing required file: ${filePath}`);
+    throw err;
+  }
+}
+
 module.exports = {
   get year() {
     return new Date().getFullYear().toString();
+  },
+
+  get name() {
+    return readSimpleFile("name.md");
+  },
+
+  get jobTitle() {
+    return readSimpleFile("jobTitle.md");
+  },
+
+  get jobSubtitle() {
+    return readSimpleFile("jobSubtitle.md");
   },
 
   get personal() {
