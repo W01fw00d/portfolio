@@ -1,4 +1,6 @@
+# local only
 notes.md
+pdfs
 
 # AI agents
 .agents
@@ -7,7 +9,7 @@ notes.md
 # AI agents skills
 skills-lock.json
 
-pdfs
+
 
 # Dependencies
 node_modules/
