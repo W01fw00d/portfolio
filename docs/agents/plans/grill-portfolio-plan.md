@@ -14,6 +14,7 @@ Create a structured CV data store and a portfolio website for Gabriel Romay that
 4. Deploys to GitHub Pages for free hosting
 5. Meets **WCAG 2.1 AA** accessibility standards
 6. Implements **comprehensive security measures** to protect against XSS, scraping, and privacy leaks
+7. Follows **privacy-by-design** principles for contact data handling
 
 ### Scope
 
@@ -29,6 +30,7 @@ Create a structured CV data store and a portfolio website for Gabriel Romay that
 - **WCAG 2.1 AA accessibility**: skip navigation, semantic HTML, ARIA landmarks, keyboard navigation, custom focus styles, `prefers-reduced-motion` support, color contrast compliance
 - **Lighthouse accessibility audit** as part of validation
 - **Security measures**: XSS prevention (marked sanitization + DOMPurify), Content Security Policy (moderate), email obfuscation (JavaScript), PDF privacy (gitignore)
+- **Privacy measures**: Email obfuscation, no phone number in portfolio, no tracking/analytics, PDFs excluded from public repo
 
 **Out of Scope:**
 
@@ -38,6 +40,8 @@ Create a structured CV data store and a portfolio website for Gabriel Romay that
 - Blog or additional content beyond CV/portfolio
 - GitHub Actions workflow for commit date (build script handles it)
 - WCAG 2.1 AAA (AA is the target)
+- Contact form (would require backend)
+- Analytics or tracking (privacy-first approach)
 
 ### User Stories
 
@@ -51,6 +55,8 @@ Create a structured CV data store and a portfolio website for Gabriel Romay that
 - **As a site owner, I want protection against XSS attacks so my portfolio is secure**
 - **As a site owner, I want my email obfuscated so bots can't scrape it**
 - **As a site owner, I want sensitive data (PDFs) excluded from the public repo**
+- **As a site owner, I want no phone number on the public portfolio to avoid spam calls**
+- **As a visitor, I want the portfolio to not track my activity so my privacy is respected**
 
 ### Functional Requirements
 
@@ -60,7 +66,12 @@ Create a structured CV data store and a portfolio website for Gabriel Romay that
 
 3. **Portfolio Website**: Static HTML/CSS/JS. Timeline-style experience layout. Tag cloud for skills. Sticky sidebar navigation with smooth scroll. Dark mode toggle. System fonts. Responsive design.
 
-4. **Contact Info**: Email as **obfuscated JavaScript-generated mailto link** (to prevent scraping), GitHub and LinkedIn links, 'Open to remote positions' note. No phone number for privacy.
+4. **Contact Info (Privacy-Conscious)**:
+   - Email as **obfuscated JavaScript-generated mailto link** (to prevent scraping)
+   - GitHub and LinkedIn profile links
+   - 'Open to remote positions' note
+   - **No phone number** (excluded from portfolio for privacy, kept in local PDFs only)
+   - Location: "Palma de Mallorca, Spain" (city-level, public)
 
 5. **GitHub Pages**: Simple settings — enable Pages in repo settings, point to main branch root.
 
@@ -79,11 +90,19 @@ Create a structured CV data store and a portfolio website for Gabriel Romay that
    - **Content Security Policy**: Moderate CSP via `<meta>` tag allowing same-origin scripts and trusted sources
    - **Email Obfuscation**: JavaScript-generated mailto link to prevent bot scraping
 
+8. **Privacy**:
+   - **No phone number** in the public portfolio (kept in local PDFs only)
+   - **No tracking or analytics** (zero visitor data collection)
+   - **PDFs excluded from public repo** via `.gitignore` (contains phone number and full address)
+   - **Email obfuscation** to prevent scraping
+   - **Data minimization**: Only essential contact info exposed (email, GitHub, LinkedIn, city-level location)
+
 ### Non-Functional Requirements
 
 - **Performance**: No runtime Markdown fetching; all content pre-rendered to static HTML
 - **Accessibility**: WCAG 2.1 AA compliance validated via Lighthouse audit
 - **Security**: XSS protection, CSP, email obfuscation, and PDF privacy
+- **Privacy**: No tracking, no phone number public, email obfuscated, PDFs private
 - **Responsive**: Works on mobile, tablet, and desktop
 - **Dark Mode**: Follows system preference, user override persisted in localStorage
 
@@ -92,7 +111,6 @@ Create a structured CV data store and a portfolio website for Gabriel Romay that
 ### Current Implementation
 
 The project is essentially empty:
-
 - `README.md` — describes a static portfolio
 - `docs/` — agent documentation only
 - No website code, no structured CV data file
@@ -127,10 +145,18 @@ The project is essentially empty:
 
 14. **JavaScript email obfuscation** (new): Generate the mailto link in JavaScript to prevent bot scraping of the email address.
 
+15. **No phone number in portfolio** (privacy grilling): Exclude phone number from the public portfolio entirely. Keep it only in the local CV PDFs (which are gitignored) for direct sharing with recruiters. Protects against spam calls and number scraping.
+
+16. **No tracking or analytics** (privacy grilling): Keep the portfolio completely free of tracking. No cookies, no analytics, no visitor data collection. Maximum visitor privacy, zero compliance overhead.
+
+17. **LinkedIn and GitHub links included** (privacy grilling): Include both LinkedIn and GitHub profile links as they are standard for developer portfolios and expected by recruiters. Accept the privacy trade-off for professional visibility.
+
+18. **City-level location** (privacy grilling): Show "Palma de Mallorca, Spain" — standard for CVs, helpful for local opportunities, low privacy risk.
+
 ### Proposed Changes
 
 1. **Create `cv/` folder** with individual Markdown files:
-   - `cv/personal.md` — name, title, location, contact (email as mailto, GitHub, LinkedIn; no phone; 'Open to remote positions')
+   - `cv/personal.md` — name, title, location (Palma de Mallorca, Spain), contact (email as mailto, GitHub, LinkedIn; no phone; 'Open to remote positions')
    - `cv/summary.md` — professional summary
    - `cv/experience/01-stuart.md` through `04-edreams.md` — work experience (reverse chronological)
    - `cv/skills.md` — 10 categorized skill sections
@@ -155,7 +181,7 @@ The project is essentially empty:
 
 4. **Update `README.md`** with project structure and build/deploy instructions.
 
-5. **Add `.gitignore`** to exclude `node_modules/`.
+5. **Add `.gitignore`** to exclude `node_modules/` and `pdfs/`.
 
 ### File Structure
 
@@ -212,12 +238,14 @@ graph LR
 - **DOMPurify dependency**: Adds a runtime dependency for sanitization. Need to ensure it's loaded correctly in the browser.
 - **CSP compatibility**: The moderate CSP may block some legitimate scripts or resources. Need to test thoroughly.
 - **Email obfuscation**: JavaScript-generated mailto link requires JS to be enabled. Users with JS disabled won't see the email link.
+- **PDF privacy**: If PDFs are accidentally committed to the repo, the phone number and full address become public. The `.gitignore` must be verified before the first push.
+- **Location exposure**: City-level location (Palma de Mallorca, Spain) is public. This is standard for CVs but adds identifying information.
 
 # Testing
 
 ### Validation Approach
 
-The agent will validate by running the build script and checking the output locally, including a Lighthouse accessibility audit and security checks.
+The agent will validate by running the build script and checking the output locally, including a Lighthouse accessibility audit, security checks, and privacy verification.
 
 ### Key Scenarios
 
@@ -239,6 +267,9 @@ The agent will validate by running the build script and checking the output loca
 16. **XSS prevention**: Attempt to inject malicious Markdown (e.g., `<script>` tags) and verify it's sanitized by marked and DOMPurify.
 17. **CSP validation**: Verify the CSP meta tag is present and correctly configured. Test that it blocks unauthorized scripts.
 18. **Email obfuscation**: Verify the email is not visible in the HTML source but is accessible via the mailto link in the browser.
+19. **No phone number**: Verify the portfolio contains no phone number in the HTML or source code.
+20. **No tracking**: Verify the portfolio contains no analytics scripts, cookies, or tracking mechanisms.
+21. **PDF privacy**: Verify the `pdfs/` folder is excluded from the public repo via `.gitignore`.
 
 ### Edge Cases
 
@@ -250,24 +281,21 @@ The agent will validate by running the build script and checking the output loca
 - **XSS attack**: Test with malicious Markdown input to verify sanitization works.
 - **CSP violations**: Test with scripts that should be blocked by CSP to verify enforcement.
 - **Email scraping**: Test with common email scraping tools to verify obfuscation works.
+- **Accidental PDF commit**: Verify that attempting to commit PDFs is prevented by `.gitignore`.
 
 # Delivery Steps
 
-### Step 1: Create cv/ folder with Markdown files
-
+###   Step 1: Create cv/ folder with Markdown files
 Extract CV data from the PDF and create structured Markdown files.
-
 - Create `cv/` folder and `cv/experience/` subfolder
-- Create `cv/personal.md` with name, title, location, contact (mailto email, GitHub, LinkedIn; 'Open to remote positions')
+- Create `cv/personal.md` with name, title, location (Palma de Mallorca, Spain), contact (mailto email, GitHub, LinkedIn; 'Open to remote positions')
 - Create `cv/summary.md` with professional summary
 - Create `cv/experience/01-stuart.md` through `04-edreams.md` with consistent structure (header, company description, tech stack, key contributions, optional technical leadership)
 - Create `cv/skills.md` with 10 categorized skill sections
-- Create `cv/education.md` and `cv/languages.md`
+- Create `cv/education.md` and `cv/languages.md"
 
-### Step 2: Create build script with semantic HTML, sanitization, and generate index.html
-
+###   Step 2: Create build script with semantic HTML, sanitization, and generate index.html
 Build the local Node.js script that converts Markdown to HTML with semantic wrappers, sanitization, and assembles the website.
-
 - Create `build.mjs` with `marked` and `dompurify` dependencies
 - Implement Markdown-to-HTML conversion for all CV files
 - **Sanitize output using marked's built-in sanitizer and DOMPurify**
@@ -278,10 +306,8 @@ Build the local Node.js script that converts Markdown to HTML with semantic wrap
 - Write current date to `date.json`
 - Run the script to generate `index.html` and verify output
 
-### Step 3: Build the static portfolio website with a11y and security
-
+###   Step 3: Build the static portfolio website with a11y and security
 Create the CSS and client-side JavaScript for the portfolio with full WCAG 2.1 AA accessibility and security measures.
-
 - Create `styles.css` with timeline layout for experience, tag cloud for skills, CSS custom properties, responsive design, dark mode, system fonts, sticky sidebar styling
 - Add **custom focus indicators** (visible in both light and dark modes)
 - Add **`prefers-reduced-motion`** CSS media query to disable animations
@@ -293,10 +319,8 @@ Create the CSS and client-side JavaScript for the portfolio with full WCAG 2.1 A
 - Add **email obfuscation** using JavaScript to generate the mailto link
 - Test locally: verify all sections render, dark mode works, responsive layout, smooth scroll, scroll spy, skip link, keyboard nav, focus indicators, reduced motion, email obfuscation
 
-### Step 4: Validate accessibility, security, and finalize deployment
-
+###   Step 4: Validate accessibility, security, and finalize deployment
 Run accessibility and security validation and finalize deployment documentation.
-
 - Run a **Lighthouse accessibility audit** on `index.html` and verify a score of 90+ (target 100)
 - **Test XSS prevention** by injecting malicious Markdown and verifying sanitization
 - **Verify CSP** is correctly configured and blocks unauthorized scripts
