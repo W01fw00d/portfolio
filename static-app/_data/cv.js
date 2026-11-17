@@ -53,8 +53,9 @@ function readSimpleFile(fileName) {
 }
 
 module.exports = {
-  get year() {
-    return new Date().getFullYear().toString();
+  get lastUpdated() {
+    const now = new Date();
+    return now.toLocaleString('en-US', { month: 'long', year: 'numeric' });
   },
 
   get name() {
