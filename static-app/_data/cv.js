@@ -1,14 +1,6 @@
 const { readFileSync, readdirSync } = require("fs");
 const { join, dirname } = require("path");
-const markdownIt = require("markdown-it");
-
-const md = markdownIt({
-  // html: true is intentional — all content in cv/ is authored and committed to the repository.
-  // If untrusted content (e.g., user submissions) is ever introduced, this should be revisited.
-  html: true,
-  linkify: true,
-  typographer: true,
-});
+const md = require("./markdown");
 
 // CV directory is inside _data/, so Eleventy watches it automatically.
 // __dirname is static-app/_data/, so cv/ is a sibling directory.
