@@ -80,6 +80,17 @@ module.exports = {
     }
   },
 
+  get urls() {
+    const filePath = join(cvDir, "urls.md");
+    try {
+      const text = readMarkdownFile(filePath);
+      return markdownToHtml(text);
+    } catch (err) {
+      console.error(`[cv.js] Missing required file: ${filePath}`);
+      throw err;
+    }
+  },
+
   get summary() {
     const filePath = join(cvDir, "summary.md");
     try {
