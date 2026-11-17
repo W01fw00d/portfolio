@@ -7,7 +7,7 @@ describe("cv.js", () => {
   beforeEach(() => {
     vi.resetModules();
     consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
-    cv = require("./cv.js");
+    cv = require("../_data/cv.js");
   });
 
   afterEach(() => {
