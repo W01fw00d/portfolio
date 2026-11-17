@@ -128,26 +128,4 @@ describe("cv.js", () => {
     });
   });
 
-  describe("error handling", () => {
-    it("logs an error to console when a simple file is missing", () => {
-      // Create a fresh cv instance that points to a non-existent file
-      vi.resetModules();
-      const fakeCv = {
-        get name() {
-          const { readFileSync } = require("fs");
-          const { join } = require("path");
-          const filePath = join(__dirname, "cv", "nonexistent-file.md");
-          try {
-            const text = readFileSync(filePath, "utf-8");
-            return text.trim();
-          } catch (err) {
-            console.error(`[cv.js] Missing required file: ${filePath}`);
-            throw err;
-          }
-        },
-      };
-      expect(() => fakeCv.name).toThrow();
-      expect(consoleErrorSpy).toHaveBeenCalled();
-    });
-  });
 });
