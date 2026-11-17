@@ -14,10 +14,6 @@ const md = markdownIt({
 // __dirname is static-app/_data/, so cv/ is a sibling directory.
 const cvDir = join(__dirname, "cv");
 
-function readMarkdownFile(filePath) {
-  return readFileSync(filePath, "utf-8");
-}
-
 function markdownToHtml(text) {
   // Pre-process: convert www. URLs to http://www. so linkify picks them up
   text = text.replace(/\bwww\./g, "http://www.");
@@ -41,32 +37,28 @@ function getMarkdownFiles(dir, baseDir) {
   return files.sort((a, b) => a.relativePath.localeCompare(b.relativePath));
 }
 
-function readSimpleFile(fileName) {
-  const filePath = join(cvDir, fileName);
+function readAndTransform(filePath, transform) {
   try {
     const text = readFileSync(filePath, "utf-8");
-    return text.trim();
+    return transform(text);
   } catch (err) {
     console.error(`[cv.js] Missing required file: ${filePath}`);
     throw err;
   }
 }
 
+function readSimpleFile(fileName) {
+  return readAndTransform(join(cvDir, fileName), (text) => text.trim());
+}
+
 function readMarkdownAsHtml(fileName) {
-  const filePath = join(cvDir, fileName);
-  try {
-    const text = readMarkdownFile(filePath);
-    return markdownToHtml(text);
-  } catch (err) {
-    console.error(`[cv.js] Missing required file: ${filePath}`);
-    throw err;
-  }
+  return readAndTransform(join(cvDir, fileName), (text) => markdownToHtml(text));
 }
 
 module.exports = {
   get lastUpdated() {
     const now = new Date();
-    return now.toLocaleString('en-US', { month: 'long', year: 'numeric' });
+    return now.toLocaleString("en-US", { month: "long", year: "numeric" });
   },
 
   get name() {
@@ -95,16 +87,8 @@ module.exports = {
 
   get experience() {
     const experienceDir = join(cvDir, "experience");
-    const files = getMarkdownFiles(experienceDir);
-    return files.map((file) => {
-      try {
-        const text = readMarkdownFile(file.path);
-        return markdownToHtml(text);
-      } catch (err) {
-        console.error(`[cv.js] Missing required file: ${file.path}`);
-        throw err;
-      }
-    });
+    const files = getMarkdownFiles(experienceDir, experienceDir);
+    return files.map((file) => readAndTransform(file.path, (text) => markdownToHtml(text)));
   },
 
   get skills() {
