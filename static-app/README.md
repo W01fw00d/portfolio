@@ -50,10 +50,11 @@ Site metadata (base URL) is stored in `_data/site.json`.
 
 ## Tests
 
-The project uses **Vitest** and has three test suites in the `test/` directory:
+The project uses **Vitest** and has four test suites in the `test/` directory:
 
-| Test File         | Type                     | What It Tests                                                                                 |
-| ----------------- | ------------------------ | --------------------------------------------------------------------------------------------- |
-| `cv.test.js`      | Unit tests               | The `_data/cv.js` module — data loading, markdown-to-HTML conversion, and error handling      |
-| `build.test.js`   | Build output tests       | The generated `_site/index.html` — HTML structure, metadata, sections, and accessibility      |
-| `content.test.js` | Content validation tests | Raw markdown files in `_data/cv/` — file existence, naming conventions, and content structure |
+| Test File          | Type                     | What It Tests                                                                                 |
+| ------------------ | ------------------------ | --------------------------------------------------------------------------------------------- |
+| `cv.test.js`       | Unit tests               | The `_data/cv.js` module — data loading and markdown-to-HTML conversion                       |
+| `cv-error.test.js` | Error handling tests     | The `_data/cv.js` module — missing file error handling with mocked `fs` module                |
+| `build.test.js`    | Build output tests       | The generated `_site/index.html` — HTML structure, metadata, sections, and accessibility      |
+| `content.test.js`  | Content validation tests | Raw markdown files in `_data/cv/` — file existence, naming conventions, and content structure |
