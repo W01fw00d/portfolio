@@ -1,6 +1,6 @@
-const md = require("./_data/markdown");
+import md from "./_data/markdown.js";
 
-module.exports = function (eleventyConfig) {
+export default function (eleventyConfig) {
   // Set up Markdown library
   eleventyConfig.setLibrary("md", md);
 
@@ -22,4 +22,4 @@ module.exports = function (eleventyConfig) {
     // Only process njk and html as templates, not md files
     templateFormats: ["njk", "html", "11ty.js"],
   };
-};
+}

@@ -1,6 +1,10 @@
-const { readFileSync, readdirSync } = require("fs");
-const { join, dirname } = require("path");
-const md = require("./markdown");
+import { readFileSync, readdirSync } from "fs";
+import { join, dirname } from "path";
+import { fileURLToPath } from "url";
+import md from "./markdown.js";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 // CV directory is inside _data/, so Eleventy watches it automatically.
 // __dirname is static-app/_data/, so cv/ is a sibling directory.
@@ -47,7 +51,7 @@ function readMarkdownAsHtml(fileName) {
   return readAndTransform(join(cvDir, fileName), (text) => markdownToHtml(text));
 }
 
-module.exports = {
+export default {
   get lastUpdated() {
     const now = new Date();
     return now.toLocaleString("en-US", { month: "long", year: "numeric" });
