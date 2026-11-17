@@ -4,10 +4,11 @@ describe("cv.js", () => {
   let cv;
   let consoleErrorSpy;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     vi.resetModules();
     consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
-    cv = require("../_data/cv.js");
+    const cvModule = await import("../_data/cv.js");
+    cv = cvModule.default;
   });
 
   afterEach(() => {
