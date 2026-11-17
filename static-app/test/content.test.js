@@ -9,7 +9,14 @@ const cvDir = join(__dirname, "..", "_data", "cv");
 const experienceDir = join(cvDir, "experience");
 
 const simpleFiles = ["name.md", "jobTitle.md", "jobSubtitle.md"];
-const markdownFiles = ["location.md", "urls.md", "summary.md", "skills.md", "education.md", "languages.md"];
+const markdownFiles = [
+  "location.md",
+  "urls.md",
+  "summary.md",
+  "skills.md",
+  "education.md",
+  "languages.md",
+];
 const experienceFiles = readdirSync(experienceDir)
   .filter((f) => f.endsWith(".md"))
   .sort();
@@ -105,7 +112,10 @@ describe("Markdown content validation", () => {
 
     it("contains paragraph content", () => {
       const content = readFileSync(join(cvDir, "summary.md"), "utf-8");
-      const lines = content.trim().split("\n").filter((l) => l.trim() && !l.trim().startsWith("#"));
+      const lines = content
+        .trim()
+        .split("\n")
+        .filter((l) => l.trim() && !l.trim().startsWith("#"));
       expect(lines.length).toBeGreaterThan(0);
     });
 

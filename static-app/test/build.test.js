@@ -79,7 +79,7 @@ describe("Build output", () => {
       const headerMatch = html.match(/<header>(.*?)<\/header>/s);
       expect(headerMatch).not.toBeNull();
       const headerContent = headerMatch[1];
-      const textContent = headerContent.replace(/<[^>]+>/g, '').trim();
+      const textContent = headerContent.replace(/<[^>]+>/g, "").trim();
       expect(textContent.length).toBeGreaterThan(0);
     });
 

@@ -127,5 +127,4 @@ describe("cv.js", () => {
       expect(result.length).toBeGreaterThanOrEqual(1);
     });
   });
-
 });

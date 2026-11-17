@@ -80,9 +80,7 @@ describe("cv.js error handling", () => {
         err.code = "ENOENT";
         throw err;
       },
-      readdirSync: (dir, options) => [
-        { name: "01-stuart.md", isDirectory: () => false },
-      ],
+      readdirSync: (dir, options) => [{ name: "01-stuart.md", isDirectory: () => false }],
     });
 
     expect(() => cv.experience).toThrow();
