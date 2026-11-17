@@ -27,6 +27,7 @@ You can also run commands directly inside this directory:
 | `npm run build`   | Build the site to `_site/`                    |
 | `npm run dev`     | Build and start a dev server with live reload |
 | `npm run preview` | Serve the built output from `_site/`          |
+| `npm test`        | Run all tests                                 |
 
 ## How It Works
 
@@ -46,3 +47,13 @@ Eleventy configuration is in `.eleventy.js`. Key settings:
 - **Static assets:** CSS and JS live in `assets/` and are copied to `_site/assets/` via passthrough copy
 
 Site metadata (base URL) is stored in `_data/site.json`.
+
+## Tests
+
+The project uses **Vitest** and has three test suites in the `test/` directory:
+
+| Test File         | Type                     | What It Tests                                                                                 |
+| ----------------- | ------------------------ | --------------------------------------------------------------------------------------------- |
+| `cv.test.js`      | Unit tests               | The `_data/cv.js` module — data loading, markdown-to-HTML conversion, and error handling      |
+| `build.test.js`   | Build output tests       | The generated `_site/index.html` — HTML structure, metadata, sections, and accessibility      |
+| `content.test.js` | Content validation tests | Raw markdown files in `_data/cv/` — file existence, naming conventions, and content structure |
