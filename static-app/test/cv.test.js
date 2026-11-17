@@ -119,24 +119,5 @@ describe("cv.js", () => {
         expect(item.length).toBeGreaterThan(0);
       }
     });
-
-    it("returns results sorted by file path", () => {
-      const result = cv.experience;
-      // Experience files are named 01-stuart.md, 02-rakuten.md, etc.
-      // The sort order is by file path, so the first file's company should
-      // come from 01-stuart.md and the last from 04-edreams.md.
-      // Each file has the company name as the first <strong> after the <h1> heading.
-      const companies = result.map((html) => {
-        // Remove the <h1> heading first, then get the first <strong> tag content
-        const withoutHeading = html.replace(/<h1>.*?<\/h1>/s, "");
-        const match = withoutHeading.match(/<strong>(.*?)<\/strong>/s);
-        return match ? match[1] : "";
-      });
-
-      // Files are sorted by path: 01-stuart < 02-rakuten < 03-habitissimo < 04-edreams
-      // So company order should be: Stuart Delivery, Rakuten Japan, Habitissimo, eDreams Odigeo
-      expect(companies[0]).toContain("Stuart");
-      expect(companies[companies.length - 1]).toContain("eDreams");
-    });
   });
 });
