@@ -56,9 +56,9 @@ See [docs/project-structure.md](docs/project-structure.md) for the current direc
 
 See [docs/agents/plans/portfolio-cv-and-website.md](docs/agents/plans/portfolio-cv-and-website.md) for the project plan and requirements.
 
-## Compromises
+## Trade-offs
 
-See [docs/compromises.md](../docs/compromises.md) for details on architectural trade-offs.
+See [docs/trade-offs.md](../docs/trade-offs.md) for details on architectural decisions.
 
 ## Contributors
 
