@@ -69,8 +69,8 @@ module.exports = {
     return readSimpleFile("jobSubtitle.md");
   },
 
-  get personal() {
-    const filePath = join(cvDir, "personal.md");
+  get location() {
+    const filePath = join(cvDir, "location.md");
     try {
       const text = readMarkdownFile(filePath);
       return markdownToHtml(text);
