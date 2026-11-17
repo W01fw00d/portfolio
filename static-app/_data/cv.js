@@ -52,6 +52,17 @@ function readSimpleFile(fileName) {
   }
 }
 
+function readMarkdownAsHtml(fileName) {
+  const filePath = join(cvDir, fileName);
+  try {
+    const text = readMarkdownFile(filePath);
+    return markdownToHtml(text);
+  } catch (err) {
+    console.error(`[cv.js] Missing required file: ${filePath}`);
+    throw err;
+  }
+}
+
 module.exports = {
   get lastUpdated() {
     const now = new Date();
@@ -71,36 +82,15 @@ module.exports = {
   },
 
   get location() {
-    const filePath = join(cvDir, "location.md");
-    try {
-      const text = readMarkdownFile(filePath);
-      return markdownToHtml(text);
-    } catch (err) {
-      console.error(`[cv.js] Missing required file: ${filePath}`);
-      throw err;
-    }
+    return readMarkdownAsHtml("location.md");
   },
 
   get urls() {
-    const filePath = join(cvDir, "urls.md");
-    try {
-      const text = readMarkdownFile(filePath);
-      return markdownToHtml(text);
-    } catch (err) {
-      console.error(`[cv.js] Missing required file: ${filePath}`);
-      throw err;
-    }
+    return readMarkdownAsHtml("urls.md");
   },
 
   get summary() {
-    const filePath = join(cvDir, "summary.md");
-    try {
-      const text = readMarkdownFile(filePath);
-      return markdownToHtml(text);
-    } catch (err) {
-      console.error(`[cv.js] Missing required file: ${filePath}`);
-      throw err;
-    }
+    return readMarkdownAsHtml("summary.md");
   },
 
   get experience() {
@@ -118,35 +108,14 @@ module.exports = {
   },
 
   get skills() {
-    const filePath = join(cvDir, "skills.md");
-    try {
-      const text = readMarkdownFile(filePath);
-      return markdownToHtml(text);
-    } catch (err) {
-      console.error(`[cv.js] Missing required file: ${filePath}`);
-      throw err;
-    }
+    return readMarkdownAsHtml("skills.md");
   },
 
   get education() {
-    const filePath = join(cvDir, "education.md");
-    try {
-      const text = readMarkdownFile(filePath);
-      return markdownToHtml(text);
-    } catch (err) {
-      console.error(`[cv.js] Missing required file: ${filePath}`);
-      throw err;
-    }
+    return readMarkdownAsHtml("education.md");
   },
 
   get languages() {
-    const filePath = join(cvDir, "languages.md");
-    try {
-      const text = readMarkdownFile(filePath);
-      return markdownToHtml(text);
-    } catch (err) {
-      console.error(`[cv.js] Missing required file: ${filePath}`);
-      throw err;
-    }
+    return readMarkdownAsHtml("languages.md");
   },
 };
