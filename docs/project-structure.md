@@ -6,11 +6,13 @@ description: Current directory structure of the portfolio monorepo.
 
 ```
 portfolio/
-├── package.json            # Monorepo root (npm workspaces)
+├── package.json            # Monorepo root (delegates scripts to static-app/)
 ├── static-app/             # Eleventy static site
-│   ├── package.json        # Dependencies: @11ty/eleventy, markdown-it
+│   ├── package.json        # Dependencies: @11ty/eleventy, markdown-it, vitest
+│   ├── vitest.config.js    # Vitest configuration
 │   ├── .eleventy.js        # Eleventy configuration
 │   ├── index.njk           # Entry page
+│   ├── README.md           # Usage and test documentation
 │   ├── _data/              # Eleventy data directory (automatically watched)
 │   │   ├── cv.js           # Reads and processes Markdown files from cv/
 │   │   ├── site.json       # Site metadata (base URL)
@@ -18,19 +20,27 @@ portfolio/
 │   │       ├── name.md
 │   │       ├── jobTitle.md
 │   │       ├── jobSubtitle.md
-│   │       ├── yearsOfExperience.md
-│   │       ├── personal.md
+│   │       ├── location.md
+│   │       ├── urls.md
 │   │       ├── summary.md
-│   │       ├── experience/
 │   │       ├── skills.md
 │   │       ├── education.md
-│   │       └── languages.md
+│   │       ├── languages.md
+│   │       └── experience/
+│   │           ├── 01-stuart.md
+│   │           ├── 02-rakuten.md
+│   │           ├── 03-habitissimo.md
+│   │           └── 04-edreams.md
 │   ├── _includes/          # Layout templates
 │   │   └── layout.njk
 │   ├── assets/             # Static assets (CSS, JS, favicon)
 │   │   ├── styles.css
 │   │   ├── script.js
 │   │   └── favicon.svg
+│   ├── test/               # Test suites (Vitest)
+│   │   ├── cv.test.js      # Unit tests for cv.js data module
+│   │   ├── build.test.js   # Build output tests for generated HTML
+│   │   └── content.test.js # Content validation tests for markdown files
 │   └── _site/              # Built output (generated, Eleventy default)
 └── docs/                   # Documentation
     ├── compromises.md
