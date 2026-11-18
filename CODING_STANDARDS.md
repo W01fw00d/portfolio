@@ -57,9 +57,9 @@ This document codifies the conventions used in this project so that any agent or
 
 ## Formatting and Linting
 
-- **Prettier** formats all files. Run `npm run format` or let the pre-commit hook handle staged files.
+- **Prettier** formats all files. Run `npm run format:fix` or let the pre-commit hook handle staged files.
 - **ESLint** checks JavaScript with recommended rules + `no-unused-vars` as warning. Config in `eslint.config.js`.
-- CI runs `format:check`, `lint`, and `test` on every push/PR to `main`.
+- CI runs `format`, `lint`, and `test` on every push/PR to `main`.
 
 ## Eleventy Configuration
 

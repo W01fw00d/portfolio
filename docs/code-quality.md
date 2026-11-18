@@ -25,8 +25,8 @@ Prettier enforces consistent code style across all file types: `.js`, `.ts`, `.c
 
 **Commands:**
 
-- `npm run format` — formats all files
-- `npm run format:check` — checks without modifying (used in CI)
+- `npm run format` — checks without modifying (used in CI)
+- `npm run format:fix` — formats all files
 
 ## Linting: ESLint
 
@@ -55,7 +55,7 @@ The `.husky/_/` directory is auto-generated at install time and tracked in `.git
 
 **Config:** `.github/workflows/ci.yml`
 
-Runs on push and pull request to `main`, but skips checks when a PR is in draft status. Installs dependencies with `npm ci`, then runs `format:check`, `lint`, `build`, and `test` in sequence on Node.js 22.
+Runs on push and pull request to `main`, but skips checks when a PR is in draft status. Installs dependencies with `npm ci`, then runs `format`, `lint`, `build`, and `test` in sequence on Node.js 22.
 
 **Why:** CI is the source of truth — it runs in a clean, consistent environment, unaffected by local setup differences. Protects `main` from code that doesn't pass the project's own checks. Running only on `main` (not all branches) saves CI minutes on a free-tier account while still protecting the integration branch. Skipping draft PRs avoids wasting minutes on work-in-progress that isn't ready for review yet — checks run once the PR is marked ready.
 
