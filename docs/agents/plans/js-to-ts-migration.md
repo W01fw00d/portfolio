@@ -22,7 +22,7 @@ The Eleventy-integration files (`.eleventy.js`, `_data/cv.js`, `_data/markdown.j
 
 **1. Type inference from the tested module**
 
-`cv.test.ts` uses `let cv: typeof import("../_data/cv.js").default` to get the exact shape of the CV module. If a property is renamed in `cv.js` (e.g., `jobTitle` → `title`), the test still compiles but accessing `cv.jobTitle` would produce a runtime `undefined` instead of a string. TypeScript doesn't actually catch this since `cv.js` is plain JS and exports `any` — the type is `any`, not a structured interface. So this is a *perception* of safety, not actual safety.
+`cv.test.ts` uses `let cv: typeof import("../_data/cv.js").default` to get the exact shape of the CV module. If a property is renamed in `cv.js` (e.g., `jobTitle` → `title`), the test still compiles but accessing `cv.jobTitle` would produce a runtime `undefined` instead of a string. TypeScript doesn't actually catch this since `cv.js` is plain JS and exports `any` — the type is `any`, not a structured interface. So this is a _perception_ of safety, not actual safety.
 
 **2. IDE autocomplete for Vitest APIs**
 
@@ -40,7 +40,7 @@ Type annotations like `let consoleErrorSpy: ReturnType<typeof vi.spyOn>` documen
 
 **1. No actual type safety against the tested code**
 
-Since `cv.js` is plain JavaScript with `export default { ... }`, importing it in TypeScript gives an `any` type. The tests have *no* type checking against the actual module under test. The TypeScript annotations are only on the test side (Vitest types), not on the contract between test and module.
+Since `cv.js` is plain JavaScript with `export default { ... }`, importing it in TypeScript gives an `any` type. The tests have _no_ type checking against the actual module under test. The TypeScript annotations are only on the test side (Vitest types), not on the contract between test and module.
 
 **2. Cognitive dissonance**
 
@@ -62,17 +62,17 @@ Vitest bundles `esbuild` for TypeScript stripping. This works, but it's a transp
 
 **For this specific project, reverting tests to JavaScript is the cleaner choice.**
 
-| Factor | TypeScript | JavaScript |
-|--------|-----------|------------|
-| Actual type safety against tested code | None — `cv.js` exports `any` | N/A — consistent with source |
-| IDE benefits | Autocomplete for Vitest API (minor) | Basic JS autocomplete |
-| Code clarity | `as` casts add noise | Direct, no casts |
-| Consistency | Mixed: TS tests, JS source | Uniform: all JS |
-| Tooling | Relies on Vitest's internal TS handling | No tooling needed |
-| Maintenance | Vitest's TS handling could change | Stable |
-| Lines of code | ~526 (with type annotations) | ~520 (slightly less) |
+| Factor                                 | TypeScript                              | JavaScript                   |
+| -------------------------------------- | --------------------------------------- | ---------------------------- |
+| Actual type safety against tested code | None — `cv.js` exports `any`            | N/A — consistent with source |
+| IDE benefits                           | Autocomplete for Vitest API (minor)     | Basic JS autocomplete        |
+| Code clarity                           | `as` casts add noise                    | Direct, no casts             |
+| Consistency                            | Mixed: TS tests, JS source              | Uniform: all JS              |
+| Tooling                                | Relies on Vitest's internal TS handling | No tooling needed            |
+| Maintenance                            | Vitest's TS handling could change       | Stable                       |
+| Lines of code                          | ~526 (with type annotations)            | ~520 (slightly less)         |
 
-**Key insight:** The TypeScript in tests provides *Vitest API types* but *no type safety for the actual code under test*. Since the source is plain JS, the import type is `any`. The type annotations are on test internals (spy types, config options), not on the contract being tested. This is TypeScript as IDE sugar, not as a safety mechanism.
+**Key insight:** The TypeScript in tests provides _Vitest API types_ but _no type safety for the actual code under test_. Since the source is plain JS, the import type is `any`. The type annotations are on test internals (spy types, config options), not on the contract being tested. This is TypeScript as IDE sugar, not as a safety mechanism.
 
 **Recommendation: Revert to JavaScript.** The tests are straightforward assertions — `expect().toBe()`, `expect().toContain()`, `expect().toThrow()`. They don't benefit from types. Reverting eliminates the cognitive dissonance of having typed tests for untyped code, removes the `as` cast noise, and makes the entire project uniformly JavaScript.
 
@@ -90,7 +90,9 @@ Vitest bundles `esbuild` for TypeScript stripping. This works, but it's a transp
 ### Execution Steps
 
 ### ✓ Step 1: Convert test files and vitest config to JavaScript
+
 Convert all 5 TypeScript files to plain JavaScript.
+
 - Convert `vitest.config.ts` → `vitest.config.js` (remove `defineConfig` wrapper, keep plain object).
 - Convert `test/cv.test.ts` → `test/cv.test.js` (remove `typeof import()` and `ReturnType<>` annotations).
 - Convert `test/cv-error.test.ts` → `test/cv-error.test.js` (remove `as NodeJS.ErrnoException` casts and parameter types).
@@ -100,6 +102,8 @@ Convert all 5 TypeScript files to plain JavaScript.
 - Run `npm run test` to validate all tests pass.
 
 ### ✓ Step 2: Update documentation
+
 Update project documentation to reflect the all-JavaScript decision.
+
 - Append a section to `docs/compromises.md` explaining why test files use plain JavaScript.
 - Update `docs/project-structure.md` to change `.ts` extensions back to `.js` for test files and vitest config.

@@ -330,13 +330,13 @@ The agent will validate by running the build script and checking the output loca
 
 The spec has been broken into 5 tracer-bullet tickets, published as GitHub Issues (sub-issues of [#1](https://github.com/W01fw00d/portfolio/issues/1)):
 
-| # | Issue | Title | Blocked By |
-|---|-------|-------|------------|
-| 1 | [#2](https://github.com/W01fw00d/portfolio/issues/2) | Set up project structure and CV data files | None |
-| 2 | [#3](https://github.com/W01fw00d/portfolio/issues/3) | Build portfolio shell with navigation, dark mode, and a11y | #2 |
-| 3 | [#4](https://github.com/W01fw00d/portfolio/issues/4) | Add experience timeline and skills tag cloud | #3 |
-| 4 | [#5](https://github.com/W01fw00d/portfolio/issues/5) | Add education, languages, footer, and security hardening | #4 |
-| 5 | [#6](https://github.com/W01fw00d/portfolio/issues/6) | Validate, audit, and finalize deployment | #5 |
+| #   | Issue                                                | Title                                                      | Blocked By |
+| --- | ---------------------------------------------------- | ---------------------------------------------------------- | ---------- |
+| 1   | [#2](https://github.com/W01fw00d/portfolio/issues/2) | Set up project structure and CV data files                 | None       |
+| 2   | [#3](https://github.com/W01fw00d/portfolio/issues/3) | Build portfolio shell with navigation, dark mode, and a11y | #2         |
+| 3   | [#4](https://github.com/W01fw00d/portfolio/issues/4) | Add experience timeline and skills tag cloud               | #3         |
+| 4   | [#5](https://github.com/W01fw00d/portfolio/issues/5) | Add education, languages, footer, and security hardening   | #4         |
+| 5   | [#6](https://github.com/W01fw00d/portfolio/issues/6) | Validate, audit, and finalize deployment                   | #5         |
 
 All tickets are labeled `ready-for-agent`. The dependency chain is linear: each ticket must complete before the next can start.
 
