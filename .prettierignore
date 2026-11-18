@@ -1,0 +1,17 @@
+# Dependencies
+node_modules/
+
+# Build output
+static-app/dist/
+
+# Generated docs
+docs/
+
+# Local files
+notes.md
+pdfs/
+
+# AI agents
+.agents/
+.junie/
+skills-lock.json
