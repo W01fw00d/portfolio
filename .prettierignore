@@ -2,16 +2,11 @@
 node_modules/
 
 # Build output
-static-app/dist/
+dist/
+_site/
 
-# Generated docs
-docs/
-
-# Local files
-notes.md
+# Generated PDFs
 pdfs/
 
-# AI agents
-.agents/
-.junie/
-skills-lock.json
+# Git metadata
+.git/
