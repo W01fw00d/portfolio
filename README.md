@@ -48,18 +48,22 @@ npm run preview
 
 Opens the site at `http://localhost:3000` (or the next available port).
 
-## Project Structure
-
-See [docs/project-structure.md](docs/project-structure.md) for the current directory layout.
-
 ## Project Plan
 
 See [docs/agents/plans/portfolio-cv-and-website.md](docs/agents/plans/portfolio-cv-and-website.md) for the project plan and requirements.
+
+## Project Structure
+
+See [docs/project-structure.md](docs/project-structure.md) for the current directory layout.
 
 ## Trade-offs
 
 See [docs/trade-offs.md](../docs/trade-offs.md) for details on architectural decisions.
 
+## Code Quality
+
+See [docs/code-quality.md](docs/code-quality.md) for an overview of the code quality strategy, including formatting, linting, testing, and CI.
+
 ## Contributors
 
-See [CONTRIBUTORS.md](CONTRIBUTORS.md) for the list of people and agents who contributed to this project.
+See [docs/CONTRIBUTORS.md](docs/CONTRIBUTORS.md) for the list of people and agents who contributed to this project.
