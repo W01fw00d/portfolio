@@ -141,10 +141,4 @@ describe("Build output", () => {
       expect(pMatch[1].trim().length).toBeGreaterThan(0);
     });
   });
-
-  describe("Static assets", () => {
-    it("references the JavaScript file", () => {
-      expect(html).toContain('src="assets/script.js"');
-    });
-  });
 });

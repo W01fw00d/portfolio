@@ -7,6 +7,13 @@
   padding: 0;
 }
 
+/* Smooth scroll for anchor links — respects user's motion preference */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
 /* Skip to content link — visually hidden but accessible to keyboard users */
 .skip-to-content {
   position: absolute;
