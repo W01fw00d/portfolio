@@ -6,12 +6,12 @@ This document summarizes the tooling and processes that enforce code quality in 
 
 The strategy uses four layers, from fastest (local) to slowest (remote):
 
-| Layer           | Tool                | When              | What it checks                      |
-| --------------- | ------------------- | ----------------- | ----------------------------------- |
-| Pre-commit hook | Husky + lint-staged | `git commit`      | Prettier formatting on staged files |
-| Local command   | npm scripts         | On demand         | Format check, lint, tests           |
-| CI              | GitHub Actions      | Push/PR to `main` | Format check, lint, tests           |
-| Tests           | Vitest              | With every run    | Unit + build output tests           |
+| Layer           | Tool                | When                    | What it checks                      |
+| --------------- | ------------------- | ----------------------- | ----------------------------------- |
+| Pre-commit hook | Husky + lint-staged | `git commit`            | Prettier formatting on staged files |
+| Local command   | npm scripts         | On demand               | Format check, lint, tests           |
+| CI              | GitHub Actions      | Push/ready PR to `main` | Format check, lint, tests           |
+| Tests           | Vitest              | With every run          | Unit + build output tests           |
 
 Each layer is a safety net: the hook catches obvious formatting issues before you commit, local commands let you verify before pushing, and CI is the gatekeeper that blocks bad code from landing on `main`.
 
@@ -55,9 +55,9 @@ The `.husky/_/` directory is auto-generated at install time and tracked in `.git
 
 **Config:** `.github/workflows/ci.yml`
 
-Runs on push and pull request to `main`. Installs dependencies with `npm ci`, then runs `format:check`, `lint`, and `test` in sequence on Node.js 20.
+Runs on push and pull request to `main`, but skips checks when a PR is in draft status. Installs dependencies with `npm ci`, then runs `format:check`, `lint`, `build`, and `test` in sequence on Node.js 22.
 
-**Why:** CI is the source of truth — it runs in a clean, consistent environment, unaffected by local setup differences. Protects `main` from code that doesn't pass the project's own checks. Running only on `main` (not all branches) saves CI minutes on a free-tier account while still protecting the integration branch.
+**Why:** CI is the source of truth — it runs in a clean, consistent environment, unaffected by local setup differences. Protects `main` from code that doesn't pass the project's own checks. Running only on `main` (not all branches) saves CI minutes on a free-tier account while still protecting the integration branch. Skipping draft PRs avoids wasting minutes on work-in-progress that isn't ready for review yet — checks run once the PR is marked ready.
 
 ## Tests: Vitest
 
