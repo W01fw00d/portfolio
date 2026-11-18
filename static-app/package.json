@@ -5,7 +5,7 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "clean": "node -e \"require('fs').rmSync('_site', { recursive: true, force: true })\"",
+    "clean": "node scripts/clean.js",
     "build": "eleventy",
     "dev": "eleventy --serve",
     "preview": "npx serve _site",
@@ -16,6 +16,7 @@
     "markdown-it": "^15.0.3"
   },
   "devDependencies": {
-    "vitest": "^3.0.0"
+    "vite": "^8.0.0",
+    "vitest": "^5.1.1"
   }
 }

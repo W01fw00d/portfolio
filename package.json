@@ -13,15 +13,19 @@
     "dev": "cd static-app && npm run dev",
     "preview": "cd static-app && npm run preview",
     "test": "cd static-app && npm run test",
-    "format": "prettier --write \"**/*.{js,ts,css,json,njk,md}\"",
-    "format:check": "prettier --check \"**/*.{js,ts,css,json,njk,md}\"",
+    "format": "prettier --check \"**/*.{js,ts,css,json,njk,md}\"",
+    "format:fix": "prettier --write \"**/*.{js,ts,css,json,njk,md}\"",
     "lint": "eslint \"**/*.js\"",
-    "lint:fix": "eslint \"**/*.js\" --fix"
+    "lint:fix": "eslint \"**/*.js\" --fix",
+    "prepare": "husky"
   },
   "devDependencies": {
     "eslint": "^10.15.0",
     "globals": "^17.14.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.6.1",
     "prettier": "^3.6.2",
-    "prettier-plugin-nunjucks": "^0.2.3"
+    "prettier-plugin-nunjucks": "^0.2.3",
+    "rolldown": "1.2.19"
   }
 }

@@ -31,3 +31,13 @@ Additionally, loading TypeScript data files required an `addDataExtension("ts")`
 **The solution:** Keep everything as plain ESM JavaScript. The build script is simply `eleventy`, the dev script is `eleventy --serve`, data files load natively, and tests run without any transpilation layer. The entire project is uniformly JavaScript — no mixed languages, no workarounds, no experimental flags.
 
 **Trade-off:** All build-time and test code lacks type annotations and IDE type checking. However, since this is a small personal portfolio site with straightforward file I/O, markdown rendering, and simple assertions, the practical benefit of types is marginal. The codebase is small enough (~500 lines of build-time code) that refactoring safety and IDE autocomplete provide minimal value compared to the simplicity of plain JavaScript.
+
+## Upgraded Dependencies for Security
+
+The project uses Vitest 5 and Vite 8 (with Rolldown as the bundler) instead of older versions to eliminate critical and high-severity vulnerabilities.
+
+**The problem:** The original Vitest 3.x dependency chain included `tinypool ≤2.1.1` with 2 critical prototype pollution RCE vulnerabilities, and Vite ≤6.4.3 with multiple high-severity path traversal and code injection issues. Upgrading was necessary to remove these from the dependency tree.
+
+**The solution:** Upgrade Vitest to 5.1.1, which brings in Vite 8 as a peer dependency. Vite 8 replaces its previous bundlers (Rollup and esbuild) with Rolldown, a single Rust-based bundler. This required adding `vite` and `rolldown` as explicit dependencies and upgrading the CI environment from Node.js 20 to Node.js 22 (required by Vitest 5).
+
+**Trade-off:** The dependency tree is now larger (Vitest 5, Vite 8, Rolldown) and requires a newer Node.js version (≥22). However, the alternative—keeping vulnerable dependencies—poses a greater risk. The remaining 13 high-severity vulnerabilities all come from `picomatch` (ReDoS via extglobs), for which no upstream fix exists. Since `picomatch` is a dev-only transitive dependency used for file watching and never processes untrusted input, the practical risk is low.

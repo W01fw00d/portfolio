@@ -12,7 +12,7 @@
 ## Homo sapiens
 
 - **Type**: Biological intelligence
-- **Species**: *Homo sapiens*
+- **Species**: _Homo sapiens_
 - **Neurons**: ~86 Billion
 - **Encephalization Quotient**: ~7.5
 - **Architecture**: Neocortex-driven decision engine with limbic system modulation
